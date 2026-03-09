@@ -1,0 +1,64 @@
+# Виртуальное окружение
+venv/
+env/
+ENV/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+static/
+staticfiles/
+*.pot
+*.pyc
+
+# БД
+*.db
+*.sqlite3
+
+# Файлы с секретами
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-*
+
+# Проект-специфичные
+client_session.session
+*.session
+media/
+static/
+
+# Логи
+logs/
+*.log
+
+# Тесты
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
