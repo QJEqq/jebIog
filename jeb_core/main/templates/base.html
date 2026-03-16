@@ -37,13 +37,16 @@
     <!-- Хедер (фиксированный) -->
     <header id='main-header'class="fixed top-0 left-0 right-0 z-50 glass-header w-full">
         <nav class=" mx-auto px-8 py-4 grid grid-cols-3 items-center">
+            <a href="{% url 'main:Home_Page'%}">
             <div class="flex items-center gap-3 justify-self-start">
+                
                 <div class='logo-circle'>
                     <img src="{% static 'img/logo.png' %}" alt="JEB Logo" class="h-12 w-12 object-contain invert">
                 </div>
                 <span class="text-2xl font-bold text-white tracking-tight">JEB</span>
+                
             </div>
-            
+            </a>
             <!-- Навигация -->
             <div class="hidden md:flex items-center gap-8 justify-self-center">
                 <a href="#services" class="nav-link">Сервисы</a>
@@ -83,6 +86,7 @@
     </footer>
 
     <!-- Скрипт для анимаций -->
+    <script src="{% static 'js/htmx.min.js' %}"></script> 
     <script src="{% static 'js/animation.js' %}"></script>
 
 </body>
