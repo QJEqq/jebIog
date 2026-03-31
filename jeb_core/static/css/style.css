@@ -1,0 +1,77 @@
+body {
+            background-color: #0b0c10;
+            color: #ffffff;
+        }
+        
+#main-header {
+    transition: all 0.3s ease;
+}
+
+/* Внутренний контейнер */
+#main-header .max-w-7xl {
+    transition: all 0.3s ease;
+    height: 5rem; /* h-20 */
+    margin: 0 auto;
+}
+
+/* ===== СОСТОЯНИЕ ПРИ СКРОЛЛЕ (ОВАЛ ПО ЦЕНТРУ) ===== */
+#main-header.scrolled {
+    background: transparent;
+    backdrop-filter: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Сам овал - внутренний контейнер становится овальным и по центру */
+#main-header.scrolled .max-w-7xl {
+    background: rgba(18, 19, 26, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 100px;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    height: 3.5rem; /* h-14 */
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: auto;
+    max-width:50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Логотип при скролле - уменьшается */
+#main-header.scrolled img {
+    height: 2rem; /* h-8 */
+    width: auto;
+}
+
+/* Текст JEB исчезает */
+#main-header.scrolled span.text-2xl {
+    display: none;
+}
+
+/* Навигация при скролле - уменьшаем отступы */
+#main-header.scrolled nav.hidden.md\\:flex {
+    gap: 1rem;
+}
+
+#main-header.scrolled nav a {
+    font-size: 0.75rem; /* text-xs */
+    padding: 0.1rem 0.5rem;
+}
+
+/* Кнопки справа при скролле - иконки уменьшаются */
+#main-header.scrolled .flex.items-center.space-x-5 {
+    gap: 0.75rem;
+}
+
+#main-header.scrolled button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Активная ссылка при скролле */
+#main-header.scrolled nav a.text-white {
+    color: #3b82f6;
+}

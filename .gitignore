@@ -21,8 +21,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media/
-static/
-staticfiles/
 *.pot
 *.pyc
 
@@ -50,7 +48,6 @@ staticfiles/
 client_session.session
 *.session
 media/
-static/
 
 # Логи
 logs/

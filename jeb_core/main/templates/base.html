@@ -1,93 +1,94 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock title %}</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <title>{% block title %}{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>  
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">  
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#0b0c10',
+                        darkCard: '#12131a',
+                        neonBlue: '#2563eb',
+                        neonPurple: '#7c3aed',
+                    }
+                }
+            }
         }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    </script>
+
 </head>
-<body class="bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 min-h-screen">
-
-    <!-- Анимированные фоны (параллакс) -->
+<body class="font-sans antialiased tracking-tight">
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="absolute top-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl parallax-bg" data-speed="0.5" id="bg-1"></div>
-        <div class="absolute bottom-20 right-20 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl parallax-bg" data-speed="-0.3" id="bg-2"></div>
-        <div class="absolute top-1/3 right-20 w-20 h-20 bg-pink-400/30 rounded-full blur-2xl floating-element"></div>
-        <div class="absolute top-2/3 left-40 w-32 h-32 bg-purple-400/30 rounded-full blur-2xl floating-element-delayed"></div>
+        <div class="absolute top-20 left-20 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl parallax-bg" data-speed="0.5" id="bg-1"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl parallax-bg" data-speed="-0.3" id="bg-2"></div>
+        <div class="absolute top-1/3 right-20 w-20 h-20 bg-purple-400/30 rounded-full blur-2xl floating-element"></div>
+        <div class="absolute top-2/3 left-40 w-32 h-32 bg-sky-400/30 rounded-full blur-2xl floating-element-delayed"></div>
     </div>
-
-    <!-- Хедер (фиксированный) -->
-    <header id='main-header'class="fixed top-0 left-0 right-0 z-50 glass-header w-full">
-        <nav class=" mx-auto px-8 py-4 grid grid-cols-3 items-center">
-            <a href="{% url 'main:Home_Page'%}">
-            <div class="flex items-center gap-3 justify-self-start">
+    <!-- НАВИГАЦИЯ -->
+    <header  id='main-header' class="sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 grid grid-cols-3 items-center">
+            <!-- Логотип -->
+            <a href="/" class="flex items-center space-x-2 justify-self-start">
                 
-                <div class='logo-circle'>
-                    <img src="{% static 'img/logo.png' %}" alt="JEB Logo" class="h-12 w-12 object-contain invert">
-                </div>
-                <span class="text-2xl font-bold text-white tracking-tight">JEB</span>
-                
-            </div>
+                <img src="{% static 'img/logoUP.png' %}" alt="JEB Logo" class="h-10 w-auto">
+                <span class="text-2xl font-extrabold   text-white">JEB</span>
             </a>
-            <!-- Навигация -->
-            <div class="hidden md:flex items-center gap-8 justify-self-center">
-                <a href="#services" class="nav-link">Сервисы</a>
-                <a href="#projects" class="nav-link">Проекты</a>
-                <a href="#contact" class="nav-link">Контакты</a>
-            </div>
-            
-            
-            <div class="justify-self-end">
-                <button class="cta-button px-3 py-3 rounded-lg flex items-center">
-                    <i class="fas fa-arrow-right ml-2"></i>
+
+            <!-- Меню -->
+            <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide justify-self-center items-center">
+                <a href="#" class="text-white hover:text-purple-400 transition whitespace-nowrap">Каталог ПК</a>
+                <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">Комплектующие</a>
+                <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">Ремонт</a>
+                <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">О компании</a>
+            </nav>
+
+            <!-- Кнопки справа -->
+            <div class="flex items-center space-x-5 justify-self-end">
+                <button class="text-gray-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 </button>
-            </div>  
-            
-        </nav>
+                <button class="text-gray-400 hover:text-white">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                </button>
+                <button class="text-gray-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+                </button>
+            </div>
+        </div>
     </header>
 
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main>
-        {% block content%}{% endblock content %}
+        {% block content %}
+        {% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="relative py-12 px-6 border-t border-white/10 z-10">
-        <div class="container mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-xl font-bold text-white">JEB</span>
-                </div>
-                <p class="text-purple-300 text-center">
-                    © 2024 JEB. All rights reserved. Digital ecosystem for your business.
-                </p>
-                <div class="flex gap-6">
-                    <a href="#" class="text-purple-300 hover:text-pink-400 transition-colors duration-300">О нас</a>
-                </div>
+    <!-- ФУТЕР -->
+    <footer class="mt-24 border-t border-white/5 py-12 bg-darkCard">
+        <div class="max-w-7xl mx-auto px-4 text-center md:flex md:justify-between md:text-left">
+            <div>
+                <h3 class="text-xl font-bold text-white mb-2">JEB Сomputers</h3>
+                <p class="text-gray-400 text-sm max-w-xs">Твой проводник в мир высокопроизводительного железа и надежного ремонта.</p>
+            </div>
+            <div class="mt-6 md:mt-0 text-gray-500 text-sm">
+                © 2024 JEB Store. Все права защищены.
             </div>
         </div>
     </footer>
-
-    <!-- Скрипт для анимаций -->
     <script src="{% static 'js/htmx.min.js' %}"></script> 
     <script src="{% static 'js/animation.js' %}"></script>
-
 </body>
 </html>
