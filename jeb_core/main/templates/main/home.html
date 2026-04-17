@@ -23,7 +23,7 @@
                 </p>
 
                 <div>
-                    <a href="#" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition">
+                    <a href="{% url 'catalog:catalog' %}" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition">
                         В каталог
                     </a>
                 </div>
@@ -34,8 +34,10 @@
         <div class="lg:col-span-1 flex flex-col justify-between space-y-4 h-[500px]">
             
             <!-- Карточка 1 (Видеокарты) -->
+            
             <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-1/3">
                 <!-- Картинка на весь блок -->
+                 <a href='{% url 'catalog:catalog' %}?type=components&q=&typecom=videokarty'>
                 <img src="{% static 'img/gpu1.jpg' %}" 
                     class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-110" 
                     alt="GPU">
@@ -51,11 +53,14 @@
                     </div>
                     <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
                 </div>
+                </a>
             </div>
+        
 
             <!-- Карточка 2 (Процессоры) -->
             <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-1/3">
                 <!-- Картинка на весь блок -->
+                 <a href='{% url 'catalog:catalog' %}?type=components&q=&typecom=processory'>
                 <img src="{% static 'img/CPU2.png' %}" 
                     class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-110" 
                     alt="GPU">
@@ -71,6 +76,7 @@
                     </div>
                     <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
                 </div>
+            </a>
             </div>
 
             <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-1/3">

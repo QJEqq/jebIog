@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Computer, ProductImage, Component, ComponentImage
+from .models import Category, Computer, ProductImage, Component, ComponentImage, GpuList, CpuList, RamList, ComponentType
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -29,3 +29,24 @@ class ComponentAdmin(admin.ModelAdmin):
     search_fields = ['name']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ComponentImageInline, ]
+
+
+@admin.register(CpuList)
+class CpuAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(GpuList)
+class GpuAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(RamList)
+class RamAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(ComponentType)
+class ComponentTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}

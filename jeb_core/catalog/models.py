@@ -1,6 +1,54 @@
 from django.db import models
 from django.utils.text import slugify
 
+
+class ComponentType(models.Model):
+    name = models.CharField(max_length=75, unique=True)
+    slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+class CpuList(models.Model):
+    name = models.CharField(max_length=75, unique=True)
+    slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
+    is_available = models.BooleanField(default=True, verbose_name="Доступен")
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+class GpuList(models.Model):
+    name = models.CharField(max_length=75, unique=True)
+    slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
+    is_available = models.BooleanField(default=True, verbose_name="Доступен")
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
+class RamList(models.Model):
+    name = models.CharField(max_length=75, unique=True)
+    slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
+    is_available = models.BooleanField(default=True, verbose_name="Доступен")
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
 class Category(models.Model):
     name = models.CharField(max_length=75, unique=True, verbose_name='Название')
     slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
@@ -28,9 +76,24 @@ class Computer(models.Model):
     )
     name = models.CharField(max_length=75, verbose_name='Название')
     slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
-    cpu = models.CharField(max_length=55, verbose_name='Процессор')
-    gpu = models.CharField(max_length=125, verbose_name='Видеокарта')
-    ram = models.CharField(max_length=75, verbose_name='Оперативная память') 
+    cpu = models.ForeignKey(
+        CpuList, 
+        on_delete=models.CASCADE,
+        related_name='computers',
+        verbose_name='Процессор'
+    )
+    gpu = models.ForeignKey(
+        GpuList, 
+        on_delete=models.CASCADE,
+        related_name='computers',
+        verbose_name='Видеокарта'
+    )
+    ram = models.ForeignKey(
+        RamList, 
+        on_delete=models.CASCADE,
+        related_name='computers',
+        verbose_name='Оперативная память'
+    )
     pc_case = models.CharField(max_length=75, verbose_name='Корпус')
     power_unit = models.CharField(max_length=75, verbose_name='Блок питания')
     storage = models.CharField(max_length=75, verbose_name='Накопитель')
@@ -55,6 +118,10 @@ class Computer(models.Model):
         verbose_name_plural = 'Компьютеры'
         ordering = ['-created_at']
 
+    @property
+    def is_computer(self):
+        return True
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(
@@ -71,14 +138,7 @@ class ProductImage(models.Model):
 
 
 class Component(models.Model):
-    class ComponentType(models.TextChoices):
-        CPU = 'cpu', 'Процессор'
-        GPU = 'gpu', 'Видеокарта'
-        RAM = 'ram', 'Оперативная память'
-        STORAGE = 'storage', 'Накопитель'
-        POWER = 'power', 'Блок питания'
-        CASE = 'case', 'Корпус'
-        COOLING = 'cooling', 'Охлаждение'
+    
     
     category = models.ForeignKey(
         Category, 
@@ -86,10 +146,10 @@ class Component(models.Model):
         related_name='components',
         verbose_name='Категория'
     )
-    component_type = models.CharField(
-        max_length=20,
-        choices=ComponentType.choices,
-        default=ComponentType.CPU,
+    component_type = models.ForeignKey(
+        ComponentType, 
+        on_delete=models.CASCADE,
+        related_name='components',
         verbose_name='Тип комплектующего'
     )
     name = models.CharField(max_length=75, verbose_name='Название')
@@ -109,12 +169,16 @@ class Component(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.get_component_type_display()}: {self.name}"
+        return f"{self.name}"
     
     class Meta:
         verbose_name = 'Комплектующее'
         verbose_name_plural = 'Комплектующие'
         ordering = ['component_type', 'name']
+
+    @property
+    def is_computer(self):
+        return False
 
 
 class ComponentImage(models.Model):
