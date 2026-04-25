@@ -1,11 +1,20 @@
 
 {% for item in cart %}
-
+    
     <div id="cart-item-{{ item.item_type }}-{{ item.id }}" class="flex items-center gap-4 mb-6 group">
+        {% if item.item_type == 'computer' %}
+            <a href="{% url 'catalog:detail' item.slug %}" >
+            <div class="w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-white/5">
+                <img src="{{ item.main_image.url }}" class="w-full h-full object-cover">
+            </div>
+            </a>
+        {% else %}
+            <a href="{% url 'catalog:comdetail' item.slug %}" >
         <div class="w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-white/5">
             <img src="{{ item.main_image.url }}" class="w-full h-full object-cover">
         </div>
-        
+        </a>
+        {% endif %}
         <div class="flex-1">
             <h4 class="text-sm font-bold text-white leading-tight mb-1">{{ item.name }}</h4>
             <p class="text-[10px] text-gray-500 uppercase font-black">{{ item.item_type }}</p>
@@ -23,14 +32,15 @@
             </div>
         </div>
     </div>
+
 {% empty %}
-    <div class="h-full flex flex-col items-center justify-center opacity-20">
+    <div class="h-full flex flex-col items-center justify-center opacity-20 z-30">
         <div class="text-6xl mb-4">🛒</div>
         <p class="text-white font-bold uppercase tracking-widest">Пусто</p>
     </div>
 {% endfor %}
 
-<div id="cart-footer" class='p-4' hx-swap-oob="true">
+<div id="cart-footer" class='p-4 z-30' hx-swap-oob="true">
     <div class="flex justify-between mb-4">
         <span class="text-gray-400 ">Итого:</span>
         <span class="text-white font-black text-xl">{{ cart.get_total_price }} ₽</span>
