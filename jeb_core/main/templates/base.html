@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="ru" class="scroll-smooth">
 <head>
+    <script  src="{% static 'js/alpine.min.js' %}"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
@@ -32,10 +33,10 @@
 </head>
 <body class="font-sans antialiased tracking-tight">
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="absolute top-20 left-20 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl parallax-bg" data-speed="0.5" id="bg-1"></div>
-        <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl parallax-bg" data-speed="-0.3" id="bg-2"></div>
-        <div class="absolute top-1/3 right-20 w-20 h-20 bg-purple-400/30 rounded-full blur-2xl floating-element"></div>
-        <div class="absolute top-2/3 left-40 w-32 h-32 bg-sky-400/30 rounded-full blur-2xl floating-element-delayed"></div>
+        <div class="absolute top-20 left-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl parallax-bg" data-speed="0.5" id="bg-1"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl parallax-bg" data-speed="-0.3" id="bg-2"></div>
+        <div class="absolute top-1/3 right-20 w-20 h-20 bg-cyan-400/30 rounded-full blur-2xl floating-element"></div>
+        <div class="absolute top-2/3 left-40 w-32 h-32 bg-cyan-400/30 rounded-full blur-2xl floating-element-delayed"></div>
     </div>
     <!-- НАВИГАЦИЯ -->
     <header  id='main-header' class="sticky top-0 z-50">
@@ -49,24 +50,31 @@
 
             <!-- Меню -->
             <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide justify-self-center items-center">
-                <a href="#" class="text-white hover:text-purple-400 transition whitespace-nowrap">Каталог ПК</a>
-                <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">Комплектующие</a>
+                <a href="{% url 'catalog:catalog' %}" class="text-white hover:text-blue-600 transition whitespace-nowrap">Каталог ПК</a>
+                <a href="{% url 'catalog:catalog' %}?type=components" class="text-gray-400 hover:text-white transition whitespace-nowrap">Комплектующие</a>
                 <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">Ремонт</a>
                 <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">О компании</a>
             </nav>
 
-            <!-- Кнопки справа -->
-            <div class="flex items-center space-x-5 justify-self-end">
-                <button class="text-gray-400 hover:text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                </button>
-                <button class="text-gray-400 hover:text-white">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                </button>
-                <button class="text-gray-400 hover:text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
-                </button>
-            </div>
+         <div class="flex items-center space-x-5 justify-self-end">
+                
+            <button @click="$dispatch('open-cart')" class="relative p-2 text-gray-400 hover:text-white">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+
+                <div id="cart-count">
+                    {% include 'cart/includes/cart_count.html' %}
+                </div>
+            </button>
+
+            <button class="text-gray-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+            </button>
+        
+        </div>
         </div>
     </header>
 
@@ -88,7 +96,54 @@
             </div>
         </div>
     </footer>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+    </script>
     <script src="{% static 'js/htmx.min.js' %}"></script> 
     <script src="{% static 'js/animation.js' %}"></script>
+   
+    <div x-data="{ cartOpen: false }" 
+     @toggle-cart.window="cartOpen = !cartOpen"
+     @open-cart.window="cartOpen = true"
+     class="relative z-[100]">
+
+    <div x-show="cartOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="cartOpen = false"
+         class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+    <div x-show="cartOpen"
+         x-transition:enter="transition transform ease-out duration-300"
+         x-transition:enter-start="translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition transform ease-in duration-300"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="translate-x-full"
+         class="fixed inset-y-0 right-0 w-full max-w-md bg-zinc-950 border-l border-white/10 shadow-2xl flex flex-col">
+        
+        <div class="p-6 border-b border-white/5 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-white uppercase tracking-tighter">Корзина</h2>
+            <button @click="cartOpen = false" class="text-gray-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div id="cart-items-container" 
+             hx-get="{% url 'cart:cart_detail' %}" 
+             hx-trigger="open-cart from:div" 
+             class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            </div>
+
+        <div id="cart-footer" class="p-6 border-t border-white/5 bg-zinc-900/50">
+            </div>
+    </div>
+</div>
 </body>
 </html>

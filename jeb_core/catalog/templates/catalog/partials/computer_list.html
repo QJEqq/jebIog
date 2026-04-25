@@ -79,12 +79,14 @@
                 </span>
             </div>
             
-            <div class="relative z-20">
-                <button class="w-12 h-12 rounded-2xl bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center justify-center shadow-lg group-hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
-                    </svg>
-                </button>
+            <div 
+            class="flex items-center relative z-30" 
+            hx-trigger="cartUpdated from:body">
+         {% if product_type == 'computers' %}
+            {% include 'cart/includes/item_control.html' with item=item item_type='computer' %}
+        {% else %}
+            {% include 'cart/includes/item_control.html' with item=item item_type='component' %}
+        {% endif %}
             </div>
         </div>
     </div>

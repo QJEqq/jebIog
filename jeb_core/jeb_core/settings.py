@@ -19,7 +19,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'users.User'
 # Application definition
 
 INSTALLED_APPS = [
@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'django_htmx',
     'main',
     'catalog',
+    'users',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +60,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },

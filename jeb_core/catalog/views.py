@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, DetailView
 from django.template.response import TemplateResponse
 from django.db.models import Q
 from .models import Computer , Category , Component ,CpuList , GpuList , RamList , ComponentType
+from cart.cart import Cart
 
 class CatalogView(TemplateView):
     template_name = 'catalog/catalog.html'
@@ -31,7 +32,7 @@ class CatalogView(TemplateView):
             queryset = Component.objects.filter(is_available=True)
             filters = self.FILTER_CONFIGS['components']
         else:
-            queryset = Computer.objects.filter(is_available=True)
+            queryset = Computer.objects.select_related('cpu', 'gpu', 'ram').filter(is_available=True)
             filters = self.FILTER_CONFIGS['computers']
 
         self.filter_params = {}
@@ -45,6 +46,7 @@ class CatalogView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['cart'] = Cart(self.request)
         product_type = self.request.GET.get('type', 'computers')
 
         items = self.get_queryset(product_type)
@@ -89,6 +91,7 @@ class ComputerDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['cart'] = Cart(self.request)
         computer = self.get_object()
 
         context['related_computers'] = Computer.objects.filter(
@@ -118,6 +121,7 @@ class ComponentDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
+        context['cart'] = Cart(self.request)
         component = self.get_object()
 
         context['related_components'] = Component.objects.filter(

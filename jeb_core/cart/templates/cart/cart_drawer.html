@@ -1,0 +1,50 @@
+
+{% for item in cart %}
+
+    <div id="cart-item-{{ item.item_type }}-{{ item.id }}" class="flex items-center gap-4 mb-6 group">
+        <div class="w-20 h-20 rounded-xl overflow-hidden bg-white/5 border border-white/5">
+            <img src="{{ item.main_image.url }}" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="flex-1">
+            <h4 class="text-sm font-bold text-white leading-tight mb-1">{{ item.name }}</h4>
+            <p class="text-[10px] text-gray-500 uppercase font-black">{{ item.item_type }}</p>
+            <div class="mt-2 flex items-center justify-between">
+                <span class="text-blue-400 font-bold text-sm">{{ item.price }} ₽</span>
+                
+                <div hx-get="{% url 'cart:cart_detail' %}" 
+                    hx-trigger="cartUpdated from:body" 
+                    hx-target="#cart-items-container">
+    
+                    <div class="scale-75 origin-right">
+                        {% include 'cart/includes/item_control.html' with item=item item_type=item.item_type %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <div class="h-full flex flex-col items-center justify-center opacity-20">
+        <div class="text-6xl mb-4">🛒</div>
+        <p class="text-white font-bold uppercase tracking-widest">Пусто</p>
+    </div>
+{% endfor %}
+
+<div id="cart-footer" class='p-4' hx-swap-oob="true">
+    <div class="flex justify-between mb-4">
+        <span class="text-gray-400 ">Итого:</span>
+        <span class="text-white font-black text-xl">{{ cart.get_total_price }} ₽</span>
+    </div>
+    <button class="relative group w-full overflow-hidden rounded-2xl p-[1px] transition-all duration-300 hover:scale-[1.02] active:scale-95">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+                        
+            <div class="relative bg-zinc-900 group-hover:bg-transparent py-4 rounded-2xl transition-colors duration-300">
+                            <span class="text-white font-black uppercase tracking-widest text-sm flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                К оплате
+             </span>
+        </div>
+    </button>
+</div>

@@ -1,0 +1,36 @@
+{% load cart_tags %}
+
+{# Используем созданный тобой simple_tag #}
+{% get_cart_qty cart item_type item.id as qty %}
+
+<div id="item-control-{{ item_type }}-{{ item.id }}" class="flex items-center justify-center">
+    {% if qty > 0 %}
+        <div class="flex items-center bg-zinc-800 border border-white/10 rounded-lg overflow-hidden">
+            <button hx-post="{% url 'cart:add' item_type item.id %}?action=remove" 
+                    hx-target="#item-control-{{ item_type }}-{{ item.id }}" 
+                    hx-swap="outerHTML"
+                    class="px-3 py-2 hover:bg-white/5 text-gray-400">-</button>
+            
+            <span class="px-3 py-2 font-bold text-sm text-white border-x border-white/5">{{ qty }}</span>
+            
+            <button hx-post="{% url 'cart:add' item_type item.id %}" 
+                    hx-target="#item-control-{{ item_type }}-{{ item.id }}" 
+                    hx-swap="outerHTML"
+                    {% if qty >= item.quantity_in_stock %} disabled {% endif %}
+                    class="px-3 py-2 text-gray-400 {% if qty >= item.quantity_in_stock %} opacity-20 cursor-not-allowed {% else %} hover:bg-white/5 {% endif %}">
+                +
+            </button>
+        </div>
+    {% else %}
+        <div class="relative z-20">
+            <button hx-post="{% url 'cart:add' item_type item.id %}" 
+                    hx-target="#item-control-{{ item_type }}-{{ item.id }}" 
+                    hx-swap="outerHTML"
+                    class="w-12 h-12 rounded-2xl bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center justify-center shadow-lg group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
+    {% endif %}
+</div>

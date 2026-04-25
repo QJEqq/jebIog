@@ -1,0 +1,6 @@
+<span id="cart-qty-badge" 
+      hx-get="{% url 'cart:cart_count' %}" 
+      hx-trigger="cartUpdated from:body"
+      class="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-cyan-600 text-[10px] font-bold text-white ring-2 ring-zinc-900 group-hover:ring-zinc-800 transition-all">
+    {{ cart|length }}
+</span>

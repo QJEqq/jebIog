@@ -66,6 +66,10 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
         ordering = ['name']
 
+def get_default_computer_description():
+    return {
+        "short_spec": "Опишите предназначение сборки (например: Идеальное решение для 2K-гейминга и работы с графикой...)"
+    }
 
 class Computer(models.Model):
     category = models.ForeignKey(
@@ -97,7 +101,7 @@ class Computer(models.Model):
     pc_case = models.CharField(max_length=75, verbose_name='Корпус')
     power_unit = models.CharField(max_length=75, verbose_name='Блок питания')
     storage = models.CharField(max_length=75, verbose_name='Накопитель')
-    description = models.JSONField(default=dict, verbose_name='Описание')
+    description = models.JSONField(default=get_default_computer_description, verbose_name='Описание')
     main_image = models.ImageField(upload_to='customPC/main/', verbose_name='Главное фото')
     price = models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Цена')
     created_at = models.DateField(auto_now_add=True, verbose_name='Создан')
@@ -136,7 +140,21 @@ class ProductImage(models.Model):
         verbose_name = 'Фото компьютера'
         verbose_name_plural = 'Фото компьютеров'
 
+def get_default_description():
+    return {
+        "short_specs": {"info": "ИМЯ"},
+        "full_info": {"architecture_details": "ИМЯ"}
+    }
 
+def get_default_specs():
+    return {
+        "tech": {
+            "Бренд": "ИМЯ",
+            "Модель": "ИМЯ",
+            "Характеристика 1": "ИМЯ",
+            "Характеристика 2": "ИМЯ"
+        }
+    }
 class Component(models.Model):
     
     
@@ -154,8 +172,10 @@ class Component(models.Model):
     )
     name = models.CharField(max_length=75, verbose_name='Название')
     slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
-    specs = models.JSONField(default=dict, verbose_name='Характеристики')
-    description = models.JSONField(default=dict, verbose_name='Описание')
+
+    specs = models.JSONField(default=get_default_specs, verbose_name='Характеристики')
+    description = models.JSONField(default=get_default_description, verbose_name='Описание')
+
     main_image = models.ImageField(upload_to='component/main/', verbose_name='Главное фото')
     price = models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Цена')
     created_at = models.DateField(auto_now_add=True, verbose_name='Создан')
