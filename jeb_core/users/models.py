@@ -41,7 +41,7 @@ class User(AbstractUser):
    
 
     city = models.CharField(max_length=35, blank=True, null=True)
-    province = models.CharField(max_length=35, blank=True, null=True)
+    country = models.CharField(max_length=35, blank=True, null=True)
     address = models.TextField(blank=True, null=True, verbose_name="Адрес доставки")
     postal_code = models.CharField(max_length=20, blank=True, null=True)
     discount_level = models.IntegerField(default=0, verbose_name="Процент скидки")

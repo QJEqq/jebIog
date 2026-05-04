@@ -4,10 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('' , include('main.urls')),
     path('admin/', admin.site.urls),
-    path('catalog/', include('catalog.urls')),
-    path('cart/', include('cart.urls',namespace='cart' ))
+    path('' , include('main.urls', namespace='main')),
+    path('catalog/', include('catalog.urls', namespace='catalog')),
+    path('cart/', include('cart.urls', namespace='cart')),
+    path('user/', include('users.urls', namespace='users'))
 ]
 
 if settings.DEBUG:
