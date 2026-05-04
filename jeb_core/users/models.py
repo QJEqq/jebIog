@@ -52,7 +52,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
 
     def clean(self):
-        for field in ['email', 'city', 'province', 'address', 'postal_code', 'discount_level']:
+        for field in ['email', 'country', 'city', 'address', 'postal_code', 'discount_level']:
             value = getattr(self, field)
             if value:
                 setattr(self,field, strip_tags(value))

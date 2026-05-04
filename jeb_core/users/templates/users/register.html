@@ -1,1 +1,51 @@
-{% extends 'base.html'%}
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}JEB - Регистрация{% endblock %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 p-10 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-blue-900/30">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-white tracking-tight drop-shadow-blue">
+                Регистрация
+            </h2>
+            <p class="mt-2 text-center text-sm text-blue-200">
+                Уже есть аккаунт?
+                <a href="{% url 'users:login' %}" class="font-medium text-blue-400 hover:text-blue-300 transition">
+                    Войти
+                </a>
+            </p>
+        </div>
+        
+        <form class="mt-8 space-y-4" action="{% url 'users:register' %}" method="POST">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="rounded-md bg-red-950/50 border border-red-800 p-4">
+                    {% for error in form.non_field_errors %}
+                        <p class="text-sm text-red-300">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="space-y-4">
+                {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="sr-only">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-xs text-red-400 mt-1 pl-2">{{ field.errors.as_text }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-700/50 focus:outline-none transition duration-150">
+                    Зарегистрироваться
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

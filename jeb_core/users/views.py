@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
 from .models import User
+from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
@@ -13,7 +14,8 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('main:Home_Page')
+            messages.success(request, 'Ваш профиль был успешно зарегистрирован!')
+            return redirect('users:profile')
     else:
         form = CustomUserCreationForm()
     return render(request, 'users/register.html', {'form' : form})
@@ -24,7 +26,8 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('main:Home_Page')
+            messages.success(request, 'Вход')
+            return redirect('users:profile')
     else:
         form = CustomUserAuthForm()
     return render(request, 'users/login.html', {'form' : form})
@@ -35,6 +38,7 @@ def profile_view(request):
         form = CustomUserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Ваш профиль был успешно обновлен!')
             if request.headers.get('HX-Request'):
                 return HttpResponse(headers={'HX-Redirect' : reverse('users:profile')})
             return redirect('users:profile')
@@ -70,6 +74,7 @@ def update_account_details(request):
             user.save()
             updated_user = User.objects.get(id=user.id)
             request.user = updated_user
+            messages.success(request, 'Ваш профиль был успешно обновлен!')
             if request.headers.get('HX-Request'):
                 return TemplateResponse(request, 'users/partials/account_details.html', {'user': updated_user})
             return TemplateResponse(request, 'users/partials/account_details.html', {'user': updated_user})
@@ -82,6 +87,7 @@ def update_account_details(request):
 
 def logout_view(request):
     logout(request)
+    messages.success(request, 'Выход')
     if request.headers.get('HX-Request'):
         return HttpResponse(headers={'HX-Redirect': reverse('main:Home_Page')})
     return redirect('main:Home_Page')

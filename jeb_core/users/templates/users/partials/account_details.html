@@ -1,0 +1,59 @@
+<div id="account-details-wrapper" class="space-y-8">
+    <div class="flex justify-between items-center border-b border-white/10 pb-6">
+        <div>
+            <h2 class="text-xl font-extrabold text-white drop-shadow-blue">Персональная информация</h2>
+            <p class="text-sm text-blue-200 mt-1">Управляйте своими личными данными JEB</p>
+        </div>
+        <button hx-get="{% url 'users:edit_account_details' %}" 
+                hx-target="#account-details-wrapper" 
+                hx-swap="outerHTML" 
+                class="px-5 py-2.5 backdrop-blur-sm bg-white/5 border border-white/15 text-sm font-medium rounded-md text-white hover:bg-white/10 focus:outline-none transition">
+            Изменить
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Имя и Фамилия</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.first_name|default:"—" }} {{ user.last_name|default:"—" }}</p>
+        </div>
+
+        <div>
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Номер телефона</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.phone_number|default:"—" }}</p>
+        </div>
+
+        <div class="md:col-span-2">
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Email</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.email|default:"—" }}</p>
+        </div>
+        
+    </div>
+     <div class="flex  items-center border-b border-white/10 pb-6">
+        <div>
+            <h2 class="text-xl font-extrabold text-white drop-shadow-blue">Адрес доставки</h2>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Страна</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.country|default:"—" }}</p>
+        </div>
+
+        <div>
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Город</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.city|default:"—" }}</p>
+        </div>
+
+        <div class="md:col-span-2">
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Адрес</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.address|default:"—" }}</p>
+        </div>
+
+        <div class="md:col-span-2">
+            <h3 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">Почтовый индекс</h3>
+            <p class="text-lg font-medium text-white mt-1.5">{{ user.postal_code|default:"—" }}</p>
+        </div>
+        
+    </div>
+</div>

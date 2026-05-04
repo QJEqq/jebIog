@@ -8,7 +8,15 @@ from phonenumber_field.formfields import PhoneNumberField
 User = get_user_model()
 
 COMMON_ATTRS = {
-    'class' : 'dotted-input'
+    'class': (
+        'w-full py-3 px-4 rounded-lg '
+        'bg-slate-950/60 backdrop-blur-md '  # Темно-серый полупрозрачный фон
+        'border border-white/10 '           # Тонкая граница
+        'text-white placeholder-slate-400 ' # Белый текст при вводе, серый плейсхолдер
+        'hover:border-blue-500/50 '         # Подсветка при наведении
+        'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 ' # Фокус
+        'outline-none transition duration-200'
+    ),
 }
 
 class CustomUserCreationForm(UserCreationForm):
@@ -29,7 +37,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
     last_name = forms.CharField(
         required=True,
-        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Ваше Имя'})
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Ваша Фамилия'})
     )
     password1 = forms.CharField(
         required=True,
@@ -41,9 +49,9 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Повторите пароль'})
     )
 
-    class Meta(UserCreationForm._meta):
+    class Meta:
         model = User
-        fields = ('phone_number', 'email', 'first_name')
+        fields = ('phone_number', 'first_name', 'last_name', 'password1', 'password2', 'email')
 
     def clean_phone_number(self):
         phone = self.cleaned_data.get('phone_number')
@@ -65,7 +73,7 @@ class CustomUserAuthForm(AuthenticationForm):
     )
 
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Придумайте пароль'})
+        widget=forms.PasswordInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Пароль'})
     )
 
     def clean(self):
@@ -100,28 +108,33 @@ class CustomUserUpdateForm(forms.ModelForm):
         required=False,
         widget=forms.EmailInput(attrs={**COMMON_ATTRS, 'placeholder': 'Почта'})
     )
+    country = forms.CharField(
+        required=False,
+        max_length=150,
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Ваша страна'})
+    )
+    city = forms.CharField(
+        required=False,
+        max_length=76,
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Ваш город'})
+    )
+    address = forms.CharField(
+        required=False,
+        max_length=150,
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Ваш адрес'})
+    )
+    postal_code = forms.IntegerField(
+        required=False,
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Ваш индекс'})
+    )
+
 
     class Meta:
         model = User
-       
-        fields = (
-            'first_name', 'last_name', 'email', 'phone_number', 
-            'company', 'address1', 'address2', 'city', 
-            'country', 'province', 'postal_code'
-        )
-        
-        widgets = {
-            'company': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Компания'}),
-            'address1': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Адрес (строка 1)'}),
-            'address2': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Адрес (строка 2)'}),
-            'city': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Город'}),
-            'country': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Страна'}),
-            'province': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Область / Регион'}),
-            'postal_code': forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Почтовый индекс'}),
-        }
+        # Оставляем ТОЛЬКО те поля, которые реально есть в твоей модели User
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'country', 'city', 'address', 'postal_code')
 
     def clean_email(self):
-        
         email = self.cleaned_data.get('email')
         if email:
             if User.objects.filter(email=email).exclude(id=self.instance.id).exists():
@@ -129,7 +142,6 @@ class CustomUserUpdateForm(forms.ModelForm):
         return email
 
     def clean_phone_number(self):
-        
         phone = self.cleaned_data.get('phone_number')
         if phone:
             if User.objects.filter(phone_number=phone).exclude(id=self.instance.id).exists():
@@ -138,17 +150,6 @@ class CustomUserUpdateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-
         if not cleaned_data.get('email'):
             cleaned_data['email'] = self.instance.email
-
-        text_fields = [
-            'company', 'address1', 'address2', 'city', 
-            'country', 'province', 'postal_code'
-        ]
-        for field in text_fields:
-            value = cleaned_data.get(field)
-            if value:
-                cleaned_data[field] = strip_tags(value)
-
         return cleaned_data

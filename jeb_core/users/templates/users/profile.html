@@ -1,1 +1,89 @@
-{% extends 'base.html' %} 
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}JEB - Кабинет{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 justify-end pointer-events-none">
+        {% for message in messages %}
+            <div x-data="{ show: false }" 
+                 x-init="
+                    setTimeout(() => show = true, 50); 
+                    setTimeout(() => show = false, 3500);
+                 "
+                 x-show="show"
+                 
+                 x-transition:enter="transition ease-out duration-500"
+                 x-transition:enter-start="opacity-0 scale-90 translate-y-4"
+                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-400"
+                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                 
+                 class="pointer-events-auto min-w-[320px] max-w-md p-5 backdrop-blur-xl bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl shadow-blue-950/40 flex items-start gap-4"
+                 style="display: none;">
+                
+                <div class="flex-shrink-0 mt-0.5">
+                    {% if message.tags == 'success' %}
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    {% elif message.tags == 'error' %}
+                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    {% else %}
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    {% endif %}
+                </div>
+
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-white tracking-wide">
+                        {{ message }}
+                    </p>
+                </div>
+
+                <button @click="show = false" class="flex-shrink-0 ml-auto text-slate-400 hover:text-white transition duration-150">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="max-w-4xl mx-auto my-16 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 min-h-[550px] backdrop-blur-2xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-blue-950/20 overflow-hidden">
+        
+        <div class="bg-black/20 border-r border-white/10 p-8 flex flex-col justify-between">
+            <div class="space-y-6">
+                <h3 class="text-xl font-bold text-white uppercase tracking-wider drop-shadow-blue">Кабинет</h3>
+                <nav class="space-y-3">
+                    <button hx-get="{% url 'users:account_details' %}" 
+                            hx-target="#profile-dynamic-content" 
+                            class="w-full text-left px-4 py-2 text-sm font-medium text-blue-100 hover:text-white hover:bg-white/5 rounded-md transition duration-150">
+                        Мои данные
+                    </button>
+                    </nav>
+            </div>
+
+            <div class="pt-6 border-t border-white/10">
+                <button hx-post="{% url 'users:logout' %}" 
+                        class="w-full text-left px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-md transition duration-150">
+                    Выйти из аккаунта
+                </button>
+            </div>
+        </div>
+
+        <div class="md:col-span-3 p-10" id="profile-dynamic-content">
+            {% include 'users/partials/account_details.html' %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
