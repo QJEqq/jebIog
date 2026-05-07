@@ -23,7 +23,7 @@ class CustomUserCreationForm(UserCreationForm):
     phone_number = PhoneNumberField(
         required=True,
         region='RU',
-        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Номер телефона'})
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Номер телефона', 'id': 'phone-mask'})
 
     )
     email = forms.EmailField(
@@ -55,7 +55,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean_phone_number(self):
         phone = self.cleaned_data.get('phone_number')
-        if User.objects.filter(phone_number=phone).exists():
+        if User.objects.filter(phone_number=phone, is_verified=True).exists():
             raise forms.ValidationError('Данный номер уже занят!')
         return phone
     
@@ -68,7 +68,7 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserAuthForm(AuthenticationForm):
     username = forms.CharField(
         label = 'Номер телефона',
-        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Номер телефона'})
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder' : 'Номер телефона', 'id': 'phone-mask'})
 
     )
 
@@ -92,7 +92,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     phone_number = PhoneNumberField(
         required=False,
         region='RU',
-        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Номер телефона'})
+        widget=forms.TextInput(attrs={**COMMON_ATTRS, 'placeholder': 'Номер телефона', 'id': 'phone-mask'})
     )
     first_name = forms.CharField(
         required=True,

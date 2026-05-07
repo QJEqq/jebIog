@@ -148,12 +148,7 @@ def get_default_description():
 
 def get_default_specs():
     return {
-        "tech": {
-            "Бренд": "ИМЯ",
-            "Модель": "ИМЯ",
-            "Характеристика 1": "ИМЯ",
-            "Характеристика 2": "ИМЯ"
-        }
+        "tech": {"Бренд": "ИМЯ", "Модель": "ИМЯ", "Характеристика 1": "ИМЯ", "Характеристика 2": "ИМЯ"}, "capacity": "ОБЪЕМ? GB"
     }
 class Component(models.Model):
     
@@ -170,6 +165,8 @@ class Component(models.Model):
         related_name='components',
         verbose_name='Тип комплектующего'
     )
+    group_name = models.CharField(max_length=256, blank=True, null=True, verbose_name="Группа товаров")
+
     name = models.CharField(max_length=75, verbose_name='Название')
     slug = models.CharField(max_length=75, unique=True, verbose_name='URL')
 

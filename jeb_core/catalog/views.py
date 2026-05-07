@@ -124,18 +124,26 @@ class ComponentDetailView(DetailView):
         context['cart'] = Cart(self.request)
         component = self.get_object()
 
-        context['related_components'] = Component.objects.filter(
-            category = component.category,
-            is_available = True
-        ) .exclude(id=component.id)[:4]
+        if component.group_name:
+            context['variants'] = Component.objects.filter(group_name = component.group_name, is_available=True).order_by('price')
+
+        related_qs = Component.objects.filter(
+            category=component.category,
+            is_available=True
+        ).exclude(id=component.id)
+
+        if component.group_name:
+            related_qs = related_qs.exclude(group_name=component.group_name)
+
+        context['related_components'] = related_qs[:4]
         context['categories'] = Category.objects.all()
         return context
 
     def get(self, request , *args, **kwargs):
         self.object = self.get_object()
-        context = super().get_context_data(**kwargs)
+        context = self.get_context_data(object=self.object)
 
         if request.headers.get('Hx-Request') :
             return TemplateResponse(request, 'catalog/component_detail.html', context)
-        return TemplateResponse(request, self.template_name, context)   
+        return self.render_to_response(context)   
 

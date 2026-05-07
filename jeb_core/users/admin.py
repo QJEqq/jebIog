@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
                        'email', 'discount_level')
         }),
         ('Информация доступов', {
-            'fields': ('is_active', 'is_staff', 'is_superuser',
+            'fields': ('is_verified', 'is_active', 'is_staff', 'is_superuser',
                        'groups', 'user_permissions')
         }),
         ('Даты', {
