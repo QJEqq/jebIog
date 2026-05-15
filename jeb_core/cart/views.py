@@ -1,6 +1,14 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse # Добавь этот импорт
 from .cart import Cart
+
+class CartMixin:
+    def get_cart(self, request):
+        if not hasattr(request, '_cart_instance'):
+            request._cart_instance = Cart(request)
+        return request._cart_instance
+
+
 def cart_count(request):
     cart = Cart(request)
     # Возвращаем просто число как текст

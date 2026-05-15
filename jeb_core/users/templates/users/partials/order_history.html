@@ -1,0 +1,50 @@
+<div class="orders-history">
+    <h3 class="text-xl font-bold mb-6 text-white uppercase tracking-wider">Мои заказы</h3>
+    
+    {% if orders %}
+        <div class="overflow-hidden rounded-xl border border-white/5 bg-white/5">
+            <table class="min-w-full text-left">
+                <thead class="bg-white/10 text-[10px] uppercase font-black text-gray-400 tracking-widest">
+                    <tr>
+                        <th class="py-4 px-6">№</th>
+                        <th class="py-4 px-6">Дата</th>
+                        <th class="py-4 px-6">Сумма</th>
+                        <th class="py-4 px-6">Статус</th>
+                        <th class="py-4 px-6"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5 text-sm">
+                    {% for order in orders %}
+                    <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/5 last:border-0">
+                        <td class="py-4 px-6 text-white font-bold">#{{ order.id }}</td>
+                        
+                        <td class="py-4 px-6 text-gray-400 whitespace-nowrap">{{ order.created_at|date:"d.m.Y" }}</td>
+                        
+                        <td class="py-4 px-6 text-blue-400 font-bold whitespace-nowrap">
+                            {{ order.total_price }} ₽
+                        </td>
+                        
+                        <td class="py-4 px-6">
+                            <span class="inline-block whitespace-nowrap px-3 py-1 rounded-md text-[10px] font-black uppercase bg-blue-500/10 text-blue-500 border border-blue-500/20 leading-none">
+                                {{ order.get_status_display }}
+                            </span>
+                        </td>
+                        
+                        <td class="py-4 px-6 text-right whitespace-nowrap">
+                            <button hx-get="{% url 'users:order_detail' order.id %}" 
+                                    hx-target="#profile-dynamic-content"
+                                    class="text-xs font-bold text-gray-500 hover:text-white uppercase tracking-tighter transition-colors">
+                                Детали →
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="py-20 text-center border border-dashed border-white/10 rounded-xl">
+            <p class="text-gray-500 uppercase font-black text-xs tracking-widest">У вас пока нет заказов</p>
+        </div>
+    {% endif %}
+</div>

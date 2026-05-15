@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-20 text-center">
+    <div class="mb-6 inline-block p-4 bg-green-500/20 rounded-full">
+        <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+    </div>
+    
+    <h1 class="text-4xl font-bold text-white mb-4">Заказ №{{ order.id }} оформлен!</h1>
+    <p class="text-zinc-400 text-lg mb-8">
+        Мы получили ваш заказ. Если оплата в CryptoCloud прошла успешно, статус обновится в ближайшее время.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="{% url 'users:profile' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded font-bold transition-all">
+            В личный кабинет
+        </a>
+        <a href="{% url 'main:Home_Page' %}" class="border border-zinc-700 hover:bg-zinc-800 text-white px-8 py-3 rounded font-bold transition-all">
+            На главную
+        </a>
+    </div>
+</div>
+{% endblock %}

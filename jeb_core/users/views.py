@@ -11,6 +11,7 @@ from .decorators import verification_required
 from .services import send_verification_code
 from django.db import models
 from django.db.models import Q
+from orders.models import Order
 
 def register(request):
     if request.method == 'POST':
@@ -157,3 +158,17 @@ def logout_view(request):
         return HttpResponse(headers={'HX-Redirect': next_page})
         
     return redirect(next_page)
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return TemplateResponse(request, 'users/partials/order_history.html', {'orders': orders})
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(
+        Order.objects.prefetch_related('items__component', 'items__computer'), 
+        id=order_id, 
+        user=request.user
+    )
+    return TemplateResponse(request, 'users/partials/order_detail.html', {'order': order})

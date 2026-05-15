@@ -1,0 +1,81 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-white">Оформление заказа</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-zinc-800">
+            <form hx-post="{% url 'orders:checkout' %}" 
+                  hx-target="#checkout-wrapper" 
+                  hx-indicator="#spinner">
+                {% csrf_token %}
+                
+                <h2 class="text-xl font-semibold mb-6 text-zinc-300">Контактные данные</h2>
+                
+                <div class="space-y-4">
+                    {% for field in form %}
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-500 mb-1">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="relative mt-5 group w-full overflow-hidden rounded-2xl p-[1px] transition-all duration-300 hover:scale-[1.02] active:scale-95">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+                        
+                        <div class="relative bg-zinc-900 group-hover:bg-transparent py-4 rounded-2xl transition-colors duration-300">
+                            <span class="text-white font-black uppercase tracking-widest text-sm flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                                Перейти к оплате 
+                            </span>
+                        </div>
+                    </button>
+                
+                <div id="spinner" class="htmx-indicator mt-4 text-center text-blue-400">
+                    Обработка заказа...
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-[#1a1a1a] p-6 rounded-lg border border-zinc-800 h-fit">
+            <h2 class="text-xl font-semibold mb-6 text-zinc-300">Ваш заказ</h2>
+            
+            <div class="space-y-4 mb-6">
+                {% for item in cart %}
+                <div class="flex justify-between items-center border-b border-zinc-800 pb-4">
+                    <div class="flex items-center gap-4">
+                        <img src="{{ item.main_image.url }}" class="w-16 h-16 object-cover rounded">
+                        <div>
+                            <p class="text-white font-medium">{{ item.name }}</p>
+                            <p class="text-zinc-500 text-sm">{{ item.quantity }} шт.</p>
+                        </div>
+                    </div>
+                    <p class="text-white font-bold">{{ item.total_price }} ₽</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-between items-center text-2xl font-bold text-white">
+                <span>Итого:</span>
+                <span class="text-blue-500">{{ total_price }} ₽</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Быстрый фикс для полей формы, чтобы они не были белыми */
+    input, select, textarea {
+        background-color: #000 !important;
+        border: 1px solid #333 !important;
+        color: #fff !important;
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+    }
+    input:focus { border-color: #2563eb !important; outline: none; }
+</style>

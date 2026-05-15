@@ -57,8 +57,7 @@ class Cart:
             del self.cart[item_type][item_id]
         elif self.cart[item_type][item_id]['quantity'] >= available_stock:
             self.cart[item_type][item_id]['quantity'] = available_stock
-            
-            # Если в категории (например, 'computer') пусто, удаляем и её
+
             if not self.cart[item_type]:
                 del self.cart[item_type]
 
@@ -89,9 +88,15 @@ class Cart:
             clean_ids = [int(tid) for tid, data in items.items() if data['quantity'] > 0]
             
             if not clean_ids: continue
+            qs = model_class.objects.filter(id__in=clean_ids)
+            if item_type =='component':
+                qs = qs.select_related('component_type', 'category')
+            else:
+                qs = qs.select_related('category')
 
-            products = model_class.objects.filter(id__in=clean_ids)
-            products_dict = {p.id: p for p in products}
+            
+            
+            products_dict = {p.id: p for p in qs}
 
             for item_id_str, data in items.items():
                 qty = data['quantity']
