@@ -36,20 +36,51 @@
             </div>
 
             <div>
-                <label class="block text-xs font-semibold text-blue-300 uppercase mb-1.5 pl-1">Номер телефона</label>
-                {{ form.phone_number }}
-                {% if form.phone_number.errors %}
-                    <p class="text-xs text-red-400 mt-1.5 pl-2">{{ form.phone_number.errors.as_text }}</p>
-                {% endif %}
-            </div>
-
-            <div>
                 <label class="block text-xs font-semibold text-blue-300 uppercase mb-1.5 pl-1">Email</label>
                 {{ form.email }}
                 {% if form.email.errors %}
                     <p class="text-xs text-red-400 mt-1.5 pl-2">{{ form.email.errors.as_text }}</p>
                 {% endif %}
             </div>
+            
+            <div>
+                <label class="block text-xs font-semibold text-blue-300 uppercase mb-1.5 pl-1">Номер телефона</label>
+                
+                <div class="flex items-center gap-2 w-full">
+                    
+                    <div class="flex-1">
+                        {{ form.phone_number }}
+                    </div>
+                    
+                    <form action='{% url "users:phone_reset_request" %}' method="GET" class="flex-shrink-0">
+                        <button type="submit" 
+                                class="px-3 py-3 backdrop-blur-sm bg-white/5 border border-white/15 text-sm font-medium rounded-xl text-white hover:bg-white/10 focus:outline-none transition flex items-center justify-center h-[52px] w-[52px]"
+                                title="Изменить номер телефона">
+                            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    
+                </div>
+
+                {% if form.phone_number.errors %}
+                    <p class="text-xs text-red-400 mt-1.5 pl-2">{{ form.phone_number.errors.as_text }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-blue-300 uppercase mb-1.5 pl-1">Пароль</label>
+                    <form action='{% url "users:profile_password_reset_init" %}'>
+                        <button 
+                        class="px-5 py-2.5 backdrop-blur-sm bg-white/5 border border-white/15 text-sm font-medium rounded-md text-white hover:bg-white/10 focus:outline-none transition">
+                    Изменить пароль
+                    
+                        </button>
+                    </form>
+            </div>
+
+            
 
             <div class="md:col-span-2 border-t border-white/10 pt-6 mt-2">
                 <h3 class="text-lg font-bold text-white tracking-wide drop-shadow-blue">Адрес доставки</h3>

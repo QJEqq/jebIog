@@ -9,10 +9,12 @@ urlpatterns = [
     path('verify/', views.verify_phone, name='verify_phone'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    
+
     # --- SMS Resending Control ---
     path('resend-sms/', views.resend_sms_view, name='resend_sms'),
     path('unresend-sms/', views.password_reset_resend_sms_view, name='resend_sms_un'),
+    path('resend-phone-sms/', views.phone_resend_sms, name='resend_sms_phone'),
+
     
     # --- Profile & Account Management ---
     path('profile/', views.profile_view, name='profile'),
@@ -29,4 +31,8 @@ urlpatterns = [
     path('password-reset/', views.password_reset_request_view, name='password_reset_request'),
     path('password-reset/confirm/', views.password_reset_confirm_view, name='password_reset_confirm'),  
     path('profile/password-reset/init/', views.profile_password_reset_trigger_view, name='profile_password_reset_init'),
+
+    # --- Phone Reset Flow ---
+    path('phone-reset/', views.phone_reset_request, name='phone_reset_request'),
+    path('phone-reset/confirm/', views.phone_reset_confirm, name='phone_reset_confirm'), 
 ]

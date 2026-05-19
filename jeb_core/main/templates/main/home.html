@@ -152,5 +152,72 @@
 
     </div>
 
+<div id="about-company" class="mt-24 mb-24 opacity-0 translate-y-8 transition-all duration-1000 ease-out scroll-animate">
+    <div class="text-center mb-12">
+        <span class="text-blue-500 font-bold tracking-widest text-xs uppercase bg-blue-500/10 px-4 py-1.5 rounded-full border border-blue-500/20">
+            Кто мы такие
+        </span>
+        <h2 class="text-3xl font-black text-white uppercase tracking-wider mt-4">
+            Экосистема <span class="text-blue-400 drop-shadow-blue">JEB</span> — Бескомпромиссный подход
+        </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2">
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+            
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                01
+            </div>
+            <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Прямой импорт</h4>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                Никаких перекупщиков. Проектируем, брендируем и везем топовое железо и SSD напрямую с фабрик. Отсюда — честная и выгодная цена без накруток.
+            </p>
+        </div>
+
+        <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2">
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+            
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                02
+            </div>
+            <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Абсолютный UX</h4>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                С нами удобно. Весь путь от сборки кастомного каталога под ваши нужды до крипто-оплаты в один клик и сквозного JEB ID сведен до идеала.
+            </p>
+        </div>
+
+        <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2">
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+            
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                03
+            </div>
+            <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Решение задач 24/7</h4>
+            <p class="text-gray-400 text-sm leading-relaxed">
+                От мелкого апгрейда до сложной пайки и подбора серверных комплектующих. Закрываем любые боли геймеров и бизнеса в кратчайшие сроки.
+            </p>
+        </div>
+
+    </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Исправлено: комментарий теперь JS-совместимый
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, {
+            threshold: 0.15 // 15% блока должно появиться на экране
+        });
+
+        document.querySelectorAll('.scroll-animate').forEach((el) => observer.observe(el));
+    });
+</script>
 {% endblock %}

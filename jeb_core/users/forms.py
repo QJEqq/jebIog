@@ -131,8 +131,12 @@ class CustomUserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        # Оставляем ТОЛЬКО те поля, которые реально есть в твоей модели User
+        
         fields = ('first_name', 'last_name', 'email', 'phone_number', 'country', 'city', 'address', 'postal_code')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['phone_number'].disabled = True
+        self.fields['phone_number'].required = False
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -148,8 +152,4 @@ class CustomUserUpdateForm(forms.ModelForm):
                 raise forms.ValidationError('Данный номер телефона уже привязан к другому аккаунту.')
         return phone
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if not cleaned_data.get('email'):
-            cleaned_data['email'] = self.instance.email
-        return cleaned_data
+    

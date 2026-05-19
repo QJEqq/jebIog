@@ -295,3 +295,79 @@ def profile_password_reset_trigger_view(request):
     
     messages.success(request, 'Код подтверждения отправлен на ваш номер телефона.')
     return redirect('users:password_reset_confirm')
+
+@login_required
+def phone_reset_request(request):
+    if request.method=='POST':
+        raw_phone = request.POST.get('new_phone_number')
+        current_password = request.POST.get('current_password')
+
+        if not current_password or not request.user.check_password(current_password):
+            messages.error(request, 'Неверный текущий пароль.')
+            return render(request, 'users/change_phone_request.html')
+        
+        if raw_phone:
+            phone = "+" + re.sub(r'\D', '', raw_phone) if raw_phone.startswith('+') else re.sub(r'\D', '', raw_phone)
+        else:
+            messages.error(request, 'Введите корректный номер.')
+            return render(request, 'users/change_phone_request.html')
+        
+        if User.objects.filter(phone_number=phone).exists():
+            messages.error(request, 'Этот номер телефона уже привязан к другому аккаунту.')
+            return render(request, 'users/change_phone_request.html')
+        
+        request.session['pending_new_phone'] = phone
+        
+        old_phone = request.user.phone_number
+        request.user.phone_number = phone
+        code = send_verification_code(request.user) 
+        request.user.phone_number = old_phone
+        
+        print("\n" + "=<>"*15)
+        print(f"КОД ПОДТВЕРЖДЕНИЯ НОВОГО НОМЕРА {phone}: {code}")
+        print("=<>"*15 + "\n")
+        
+        messages.success(request, 'Код подтверждения отправлен на новый номер телефона.')
+        return redirect('users:phone_reset_confirm')
+
+    return render(request, 'users/change_phone_request.html')
+
+@login_required
+def phone_reset_confirm(request):
+    new_phone = request.session.get('pending_new_phone')
+    if not new_phone:
+        return redirect('main:Home_Page')
+    if request.method == 'POST':
+        user_code = request.POST.get('code')
+        db_record = SMSCode.objects.filter(user=request.user).last()
+
+        if db_record and db_record.code == user_code:
+            user = request.user
+            user.phone_number = new_phone
+            user.save()
+            
+            db_record.delete()
+            del request.session['pending_new_phone']
+            messages.success(request, 'Номер телефона успешно изменен!')
+            return redirect('main:Home_Page')
+        else:
+            messages.error(request, 'Неверный код подтверждения.')
+
+    return render(request, 'users/change_phone_confirm.html', {'new_phone': new_phone})
+
+@login_required
+def phone_resend_sms(request):
+    new_phone = request.session.get('pending_new_phone')
+    if not new_phone:
+        messages.error(request, 'Сессия изменения номера истекла. Начните заново.')
+        return redirect('users:phone_reset_request')
+    old_phone = request.user.phone_number
+    request.user.phone_number = new_phone
+    code = send_verification_code(request.user) 
+    request.user.phone_number = old_phone
+    print("\n" + "=<>"*15)
+    print(f"[ПОВТОР] КОД ПОДТВЕРЖДЕНИЯ НОВОГО НОМЕРА {new_phone}: {code}")
+    print("=<>"*15 + "\n")
+        
+    messages.success(request, 'Код подтверждения отправлен повторно на новый номер телефона.')
+    return redirect('users:phone_reset_confirm')

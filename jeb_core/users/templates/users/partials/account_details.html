@@ -28,14 +28,6 @@
             <p class="text-lg font-medium text-white mt-1.5">{{ user.email|default:"—" }}</p>
         </div>
 
-        <div class="md:col-span-2">
-            <form action='{% url "users:profile_password_reset_init" %}'>
-            <button 
-                class="px-5 py-2.5 backdrop-blur-sm bg-white/5 border border-white/15 text-sm font-medium rounded-md text-white hover:bg-white/10 focus:outline-none transition">
-            Изменить пароль
-            </form>
-        </button>
-        </div>
         
     </div>
      <div class="flex  items-center border-b border-white/10 pb-6">
