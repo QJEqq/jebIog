@@ -12,6 +12,11 @@ from .services import send_verification_code
 from django.db import models
 from django.db.models import Q
 from orders.models import Order
+from orders.services import create_cryptocloud_payment
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+import re
+from django.contrib.auth.hashers import make_password
 
 def register(request):
     if request.method == 'POST':
@@ -172,3 +177,121 @@ def order_detail(request, order_id):
         user=request.user
     )
     return TemplateResponse(request, 'users/partials/order_detail.html', {'order': order})
+
+@login_required
+def repay_order(request, order_id):
+    order = get_object_or_404(
+        Order.objects.prefetch_related('items__component', 'items__computer'), 
+        id=order_id, 
+        user=request.user
+    )
+
+    url = create_cryptocloud_payment(order)
+    if url:
+        return redirect(url)
+    else:
+        messages.error(request, "Не удалось создать ссылку на оплату. Попробуйте позже.")
+        return redirect('users:profile')
+
+
+
+def password_reset_request_view(request):
+    if request.method == 'POST':
+        raw_phone = request.POST.get('phone_number')
+        
+        if raw_phone:
+            phone = ""
+            if raw_phone.startswith('+'):
+                phone = "+" + re.sub(r'\D', '', raw_phone)
+            else:
+                phone = re.sub(r'\D', '', raw_phone)
+        else:
+            phone = raw_phone
+
+        user = User.objects.filter(phone_number=phone).first()
+        
+        if user:
+            code = send_verification_code(user)
+            print("\n" + "="*40)
+            print(f"КОД ДЛЯ СБРОСА ПАРОЛЯ ДЛЯ ЮЗЕРА {user.phone_number}: {code}") 
+            print("="*40 + "\n")
+            request.session['reset_user_id'] = user.id
+            messages.success(request, 'Код восстановления отправлен на ваш номер телефона.')
+            return redirect('users:password_reset_confirm')
+        else:
+            messages.error(request, f'Пользователь с номером {phone} не найден.')
+            
+    return render(request, 'users/password_reset_request.html')
+
+
+def password_reset_confirm_view(request):
+    
+    if request.user.is_authenticated:
+        user_id = request.user.id
+    else:
+        user_id = request.session.get('reset_user_id')
+    if not user_id:
+        return redirect('users:password_reset_request')
+    
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        user_code = request.POST.get('code')
+        new_password = request.POST.get('new_password')
+        
+        db_record = SMSCode.objects.filter(user=user).last()
+
+        if db_record and db_record.code == user_code:
+            try:
+                validate_password(new_password, user=user)
+                
+            except ValidationError as e:
+                for error in e.messages:
+                    messages.error(request, error)
+                return render(request, 'users/password_reset_confirm.html', {'phone_number': user.phone_number})
+            
+
+            user.password = make_password(new_password)
+            user.save()
+            db_record.delete()
+            if 'reset_user_id' in request.session:
+                del request.session['reset_user_id']
+                request.session.modified = True
+            
+            messages.success(request, 'Пароль успешно изменен! Теперь вы можете войти.')
+            return redirect('users:login')
+        else:
+            messages.error(request, 'Неверный код подтверждения.')
+
+    return render(request, 'users/password_reset_confirm.html', {'phone_number': user.phone_number})
+
+def password_reset_resend_sms_view(request):
+    if request.user.is_authenticated:
+        user_id = request.user.id
+    else:
+        user_id = request.session.get('reset_user_id')
+    
+    if not user_id:
+        messages.error(request, 'Сессия восстановления истекла. Запросите код заново.')
+        return redirect('users:password_reset_request')
+        
+    user = get_object_or_404(User, id=user_id)
+    
+    code = send_verification_code(user)
+    print(f"\n[ПОВТОР] КОД ДЛЯ СБРОСА ПАРОЛЯ: {code}\n") 
+    
+    messages.success(request, 'Новый код успешно отправлен!')
+    return redirect('users:password_reset_confirm')
+
+@login_required(login_url='/users/login')
+def profile_password_reset_trigger_view(request):
+    user = request.user
+ 
+    code = send_verification_code(user)
+    
+    print("\n" + "=*="*15)
+    print(f"ИНИЦИАЦИЯ СМЕНЫ ПАРОЛЯ ИЗ ПРОФИЛЯ ДЛЯ: {user.phone_number}")
+    print(f"КОД: {code}")
+    print("=*="*15 + "\n")
+    
+    messages.success(request, 'Код подтверждения отправлен на ваш номер телефона.')
+    return redirect('users:password_reset_confirm')
