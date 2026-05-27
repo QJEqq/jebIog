@@ -9,7 +9,8 @@ urlpatterns = [
     path('catalog/', include('catalog.urls', namespace='catalog')),
     path('cart/', include('cart.urls', namespace='cart')),
     path('user/', include('users.urls', namespace='users')),
-    path('orders/', include('orders.urls', namespace='orders'))
+    path('orders/', include('orders.urls', namespace='orders')),
+    path('repair/', include('repair.urls', namespace='repair'))
 ]
 
 if settings.DEBUG:

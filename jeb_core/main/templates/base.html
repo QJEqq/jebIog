@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="ru" class="scroll-smooth">
 <head>
-    <script  src="{% static 'js/alpine.min.js' %}"></script>
+    <script src="{% static 'js/alpine.min.js' %}"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}JEB{% endblock %}</title>
-
+    <link rel="icon" type="image/png" href="{% static 'img/logoUP1.png' %}">
     <script src="https://cdn.tailwindcss.com"></script>  
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,61 +29,81 @@
             }
         }
     </script>
-
 </head>
-<body class="font-sans antialiased tracking-tight">
+<body x-data="{ mobileMenuOpen: false }" class="font-sans antialiased tracking-tight min-h-screen flex flex-col relative overflow-x-hidden bg-[#0b0c10]">
+    
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div class="absolute top-20 left-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl parallax-bg" data-speed="0.5" id="bg-1"></div>
         <div class="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl parallax-bg" data-speed="-0.3" id="bg-2"></div>
         <div class="absolute top-1/3 right-20 w-20 h-20 bg-cyan-400/30 rounded-full blur-2xl floating-element"></div>
         <div class="absolute top-2/3 left-40 w-32 h-32 bg-cyan-400/30 rounded-full blur-2xl floating-element-delayed"></div>
     </div>
-    <!-- НАВИГАЦИЯ -->
-    <header  id='main-header' class="sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 grid grid-cols-3 items-center">
-            <!-- Логотип -->
-            <a href="/" class="flex items-center space-x-2 justify-self-start">
-                
+
+   <header id='main-header' class="sticky top-0 z-50  backdrop-blur-md ">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between md:grid md:grid-cols-3">
+            
+            <a href="/" class="flex items-center space-x-2 justify-self-start z-50">
                 <img src="{% static 'img/logoUP1.png' %}" alt="JEB Logo" class="h-10 w-auto">
-                <span class="text-2xl font-extrabold   text-white">JEB</span>
+                <span class="text-2xl font-extrabold text-white">JEB</span>
             </a>
 
-            <!-- Меню -->
             <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide justify-self-center items-center">
                 <a href="{% url 'catalog:catalog' %}" class="text-white hover:text-blue-600 transition whitespace-nowrap">Каталог ПК</a>
                 <a href="{% url 'catalog:catalog' %}?type=components" class="text-gray-400 hover:text-white transition whitespace-nowrap">Комплектующие</a>
-                <a href="#" class="text-gray-400 hover:text-white transition whitespace-nowrap">Ремонт</a>
+                <a href="{% url 'repair:repairform' %}" class="text-gray-400 hover:text-white transition whitespace-nowrap">Ремонт</a>
                 <a href="{% url 'main:Home_Page'%}#about-company" class="text-gray-400 hover:text-white transition whitespace-nowrap">О компании</a>
             </nav>
 
-         <div class="flex items-center space-x-5 justify-self-end">
-                
-            <button @click="$dispatch('open-cart')" class="relative p-2 text-gray-400 hover:text-white">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
+            <div class="flex items-center gap-x-4 justify-self-end z-50">
+                <button @click="$dispatch('open-cart')" class="relative p-2 text-gray-400 hover:text-white transition-colors">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <div id="cart-count">
+                        {% include 'cart/includes/cart_count.html' %}
+                    </div>
+                </button>
 
-                <div id="cart-count">
-                    {% include 'cart/includes/cart_count.html' %}
-                </div>
-            </button>
-            {% if user.is_authenticated %}
-                <a href='{% url "users:profile" %}' class="text-gray-400 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                {% if user.is_authenticated %}
+                    <a href='{% url "users:profile" %}' class="p-2 text-gray-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </a>
+                {% else %}
+                    <a href='{% url "users:login" %}' class="p-2 text-gray-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </a>
+                {% endif %}
+
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-gray-400 hover:text-white md:hidden transition-colors">
+                    <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
-                </a>
-            {% else %}
-                <a href='{% url "users:login" %}' class="text-gray-400 hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
-                </a>
-            {% endif %}
+                </button>
+            </div>
         </div>
+
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             class="md:hidden bg-[#0c0d12] border-b border-white/5 w-full px-6 py-4 flex flex-col gap-4 text-sm font-medium tracking-wide"
+             style="display: none;">
+            <a @click="mobileMenuOpen = false" href="{% url 'catalog:catalog' %}" class="text-white py-1">Каталог ПК</a>
+            <a @click="mobileMenuOpen = false" href="{% url 'catalog:catalog' %}?type=components" class="text-gray-400 hover:text-white py-1">Комплектующие</a>
+            <a @click="mobileMenuOpen = false" href="{% url 'repair:repairform' %}" class="text-gray-400 hover:text-white py-1">Ремонт</a>
+            <a @click="mobileMenuOpen = false" href="{% url 'main:Home_Page'%}#about-company" class="text-gray-400 hover:text-white py-1">О компании</a>
         </div>
     </header>
-   {% if messages %}
+
+    {% if messages %}
     <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 justify-end pointer-events-none">
         {% for message in messages %}
             <div x-data="{ show: false }" 
@@ -100,7 +120,7 @@
                  x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                  x-transition:leave-end="opacity-0 scale-95 translate-y-2"
                  
-                 class="pointer-events-auto min-w-[320px] max-w-md p-5 backdrop-blur-xl bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl shadow-blue-950/40 flex items-start gap-4"
+                 class="pointer-events-auto min-w-[320px] max-w-md p-5 backdrop-blur-xl bg-slate-900/90 border border-white/10 rounded-2xl shadow-2xl flex items-start gap-4"
                  style="display: none;">
                 
                 <div class="flex-shrink-0 mt-0.5">
@@ -133,25 +153,25 @@
             </div>
         {% endfor %}
     </div>
-{% endif %}
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
-    <main >
+    {% endif %}
+
+    <main class="flex-1 relative z-10">
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- ФУТЕР -->
-    <footer class="mt-24 border-t border-white/5 py-12 bg-darkCard">
+    <footer class="mt-24 border-t border-white/5 py-12 bg-darkCard relative z-10">
         <div class="max-w-7xl mx-auto px-4 text-center md:flex md:justify-between md:text-left">
             <div>
                 <h3 class="text-xl font-bold text-white mb-2">JEB Сomputers</h3>
                 <p class="text-gray-400 text-sm max-w-xs">Твой проводник в мир высокопроизводительного железа и надежного ремонта.</p>
             </div>
             <div class="mt-6 md:mt-0 text-gray-500 text-sm">
-                © 2024 JEB Store. Все права защищены.
+                © 2026 JEB Store. Все права защищены.
             </div>
         </div>
     </footer>
+
     <script>
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
@@ -161,45 +181,45 @@
     <script src="{% static 'js/animation.js' %}"></script>
    
     <div x-data="{ cartOpen: false }" 
-     @toggle-cart.window="cartOpen = !cartOpen"
-     @open-cart.window="cartOpen = true"
-     class="relative z-[100]">
+         @toggle-cart.window="cartOpen = !cartOpen"
+         @open-cart.window="cartOpen = true"
+         class="relative z-[100]">
 
-    <div x-show="cartOpen" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         @click="cartOpen = false"
-         class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div x-show="cartOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="cartOpen = false"
+             class="fixed inset-0 bg-black/60 backdrop-blur-sm"></div>
 
-    <div x-show="cartOpen"
-         x-transition:enter="transition transform ease-out duration-300"
-         x-transition:enter-start="translate-x-full"
-         x-transition:enter-end="translate-x-0"
-         x-transition:leave="transition transform ease-in duration-300"
-         x-transition:leave-start="translate-x-0"
-         x-transition:leave-end="translate-x-full"
-         class="fixed inset-y-0 right-0 w-full max-w-md bg-zinc-950 border-l border-white/10 shadow-2xl flex flex-col">
-        
-        <div class="p-6 border-b border-white/5 flex items-center justify-between">
-            <h2 class="text-xl font-bold text-white uppercase tracking-tighter">Корзина</h2>
-            <button @click="cartOpen = false" class="text-gray-400 hover:text-white transition-colors z-50">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+        <div x-show="cartOpen"
+             x-transition:enter="transition transform ease-out duration-300"
+             x-transition:enter-start="translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition transform ease-in duration-300"
+             x-transition:leave-start="translate-x-0"
+             x-transition:leave-end="translate-x-full"
+             class="fixed inset-y-0 right-0 w-full max-w-md bg-zinc-950 border-l border-white/10 shadow-2xl flex flex-col">
+            
+            <div class="p-6 border-b border-white/5 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-white uppercase tracking-tighter">Корзина</h2>
+                <button @click="cartOpen = false" class="text-gray-400 hover:text-white transition-colors z-50">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <div id="cart-items-container" 
+                 hx-get="{% url 'cart:cart_detail' %}" 
+                 hx-trigger="open-cart from:div" 
+                 class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            </div>
+
+            <div id="cart-footer" class="p-6 border-t border-white/5 bg-zinc-900/50">
+            </div>
         </div>
-
-        <div id="cart-items-container" 
-             hx-get="{% url 'cart:cart_detail' %}" 
-             hx-trigger="open-cart from:div" 
-             class="flex-1 overflow-y-auto p-6 custom-scrollbar">
-            </div>
-
-        <div id="cart-footer" class="p-6 border-t border-white/5 bg-zinc-900/50">
-            </div>
     </div>
-</div>
 </body>
 </html>

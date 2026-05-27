@@ -26,6 +26,11 @@ urlpatterns = [
     path('order_history/', views.order_history, name='order_history'),
     path('order_detail/<int:order_id>/', views.order_detail, name='order_detail'),
     path('repay/<int:order_id>/', views.repay_order, name='repay_order'),
+
+    # --- Repair History ---
+    path('repair_history/', views.repair_history, name='repair_history'),
+    path('repair_detail/<int:repair_id>/', views.repair_detail, name='repair_detail'),
+    #path('repay_repair/<int:repair_id>/', views., name=''),
     
     # --- Password Reset Flow ---
     path('password-reset/', views.password_reset_request_view, name='password_reset_request'),

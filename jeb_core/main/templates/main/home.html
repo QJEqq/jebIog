@@ -2,148 +2,125 @@
 {% load static %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-16">
-        <div class="lg:col-span-3 h-[500px] relative rounded-3xl overflow-hidden group">
-            
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 lg:pt-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10 lg:mb-16">
+        
+        <div class="lg:col-span-3 h-auto min-h-[380px] lg:h-[500px] relative rounded-3xl overflow-hidden group">
             <img src="{% static 'img/PC.png'%}" 
                  alt="Gaming PC" 
-                 class="absolute inset-0 w-full h-full object-cover">
+                 class="absolute inset-0 w-full h-full object-cover object-center">
             
-            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent flex flex-col justify-center px-12">
-                <span class="text-blue-400 font-semibold tracking-wider text-sm mb-3 uppercase">Новое поступление</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/20 lg:bg-gradient-to-r lg:from-black lg:via-black/70 lg:to-transparent flex flex-col justify-end lg:justify-center p-6 sm:p-12">
+                <span class="text-blue-400 font-semibold tracking-wider text-xs sm:text-sm mb-2 sm:mb-3 uppercase">Новое поступление</span>
                 
-                <h1 class="text-5xl font-extrabold text-white mb-4 leading-tight tracking-tight max-w-xl uppercase">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3 sm:mb-4 leading-tight tracking-tight max-w-xl uppercase">
                     Погрузись в мир <br>
                     <span class="text-blue-400">Ультимативного гейминга</span>
                 </h1>
                 
-                <p class="text-gray-300 mb-8 max-w-md text-sm leading-relaxed">
+                <p class="text-gray-300 mb-6 sm:mb-8 max-w-md text-xs sm:text-sm leading-relaxed">
                     Готовые сборки JEB на базе RTX 40-й серии. Тестирование 24 часа. Официальная гарантия 3 года.
                 </p>
 
                 <div>
-                    <a href="{% url 'catalog:catalog' %}" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition">
+                    <a href="{% url 'catalog:catalog' %}" class="inline-block text-center bg-blue-600 hover:bg-blue-700 px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition">
                         В каталог
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Правый сайдбар (3 карточки) -->
-        <div class="lg:col-span-1 flex flex-col justify-between space-y-4 h-[500px]">
+        <div class="lg:col-span-1 flex flex-col gap-4 h-auto lg:h-[500px]">
             
-            <!-- Карточка 1 (Видеокарты) -->
-            
-            <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-1/3">
-                <!-- Картинка на весь блок -->
-                 <a href='{% url 'catalog:catalog' %}?type=components&q=&typecom=videokarty'>
-                <img src="{% static 'img/gpu1.jpg' %}" 
-                    class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-110" 
-                    alt="GPU">
-                
-                <!-- Затемнение для читаемости текста -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
-                
-                <!-- Контент поверх картинки -->
-                <div class="relative z-10 h-full flex flex-col justify-between p-4">
-                    <div>
-                        <h3 class="text-white font-bold tracking-wider text-sm uppercase">Видеокарты</h3>
-                        <p class="text-xs  text-gray-300 mt-1">В наличии RTX 4090</p>
+            <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-[140px] lg:h-1/3">
+                <a href="{% url 'catalog:catalog' %}?type=components&q=&typecom=videokarty" class="block h-full w-full">
+                    <img src="{% static 'img/gpu1.jpg' %}" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                        alt="GPU">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-between p-4">
+                        <div>
+                            <h3 class="text-white font-bold tracking-wider text-sm uppercase">Видеокарты</h3>
+                            <p class="text-xs text-gray-300 mt-1">В наличии RTX 4090</p>
+                        </div>
+                        <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
                     </div>
-                    <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
-                </div>
                 </a>
             </div>
-        
 
-            <!-- Карточка 2 (Процессоры) -->
-            <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-1/3">
-                <!-- Картинка на весь блок -->
-                 <a href='{% url 'catalog:catalog' %}?type=components&q=&typecom=processory'>
-                <img src="{% static 'img/CPU2.png' %}" 
-                    class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-110" 
-                    alt="GPU">
-                
-                <!-- Затемнение для читаемости текста -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
-                
-                <!-- Контент поверх картинки -->
-                <div class="relative z-10 h-full flex flex-col justify-between p-4">
-                    <div>
-                        <h3 class="text-white font-bold tracking-wider text-sm uppercase">Процессоры</h3>
-                        <p class="text-xs  text-gray-300 mt-1">Ryzen9&I9</p>
+            <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-[140px] lg:h-1/3">
+                <a href="{% url 'catalog:catalog' %}?type=components&q=&typecom=processory" class="block h-full w-full">
+                    <img src="{% static 'img/CPU2.png' %}" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                        alt="CPU">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-between p-4">
+                        <div>
+                            <h3 class="text-white font-bold tracking-wider text-sm uppercase">Процессы</h3>
+                            <p class="text-xs text-gray-300 mt-1">Ryzen 9 & Core i9</p>
+                        </div>
+                        <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
                     </div>
-                    <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
-                </div>
-            </a>
+                </a>
             </div>
 
-            <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-1/3">
-                <!-- Картинка на весь блок -->
-                <img src="{% static 'img/diag.jpg' %}" 
-                    class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-500 group-hover:scale-110" 
-                    alt="GPU">
-                
-                <!-- Затемнение для читаемости текста -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
-                
-                <!-- Контент поверх картинки -->
-                <div class="relative z-10 h-full flex flex-col justify-between p-4">
-                    <div>
-                        <h3 class="text-white font-bold tracking-wider text-sm uppercase">Ремонт ПК</h3>
-                        <p class="text-xs text-gray-300 mt-1">Чистка, апгрейд, пайка</p>
+            <div class="bg-darkCard rounded-2xl overflow-hidden relative group cursor-pointer h-[140px] lg:h-1/3">
+                <a href="{% url 'repair:repairform' %}" class="block h-full w-full">
+                    <img src="{% static 'img/diag.jpg' %}" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                        alt="Diagnostics">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-between p-4">
+                        <div>
+                            <h3 class="text-white font-bold tracking-wider text-sm uppercase">Ремонт ПК</h3>
+                            <p class="text-xs text-gray-300 mt-1">Чистка, апгрейд, пайка</p>
+                        </div>
+                        <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
                     </div>
-                    <span class="text-xs text-blue-400 font-semibold group-hover:underline self-start">Смотреть &rarr;</span>
-                </div>
+                </a>
             </div>
 
         </div>
     </div>
 
+    <h2 class="text-xl sm:text-2xl font-extrabold text-white mb-6 lg:mb-8 tracking-wider uppercase">Интернет-магазин будущего</h2>
 
-    <h2 class="text-2xl font-extrabold text-white mb-8 tracking-wider uppercase">Интернет-магазин будущего</h2>
-
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
         
-        <!-- Сетка маленьких карточек -->
-        <div class="lg:col-span-5 grid grid-cols-2 gap-6 h-[400px]">
-            
-            <div class="bg-darkCard rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition">
-                <span class="text-5xl font-extrabold text-white mb-2">30</span>
-                <span class="text-xs text-gray-400 uppercase tracking-widest">Сотрудников</span>
+        <div class="lg:col-span-5 grid grid-cols-2 gap-4 sm:gap-6 h-auto lg:h-[400px]">
+            <div class="bg-darkCard rounded-3xl p-4 sm:p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition duration-300">
+                <span class="text-3xl sm:text-5xl font-extrabold text-white mb-1 sm:mb-2">30</span>
+                <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-widest">Сотрудников</span>
             </div>
 
-            <div class="bg-darkCard rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition">
-                <span class="text-5xl font-extrabold text-white mb-2">1 000+</span>
-                <span class="text-xs text-gray-400 uppercase tracking-widest">Довольных клиентов</span>
+            <div class="bg-darkCard rounded-3xl p-4 sm:p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition duration-300">
+                <span class="text-3xl sm:text-5xl font-extrabold text-white mb-1 sm:mb-2">1 000+</span>
+                <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-widest">Клиентов</span>
             </div>
 
-            <div class="bg-darkCard rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition">
-                <span class="text-5xl font-extrabold text-white mb-2">5 лет</span>
-                <span class="text-xs text-gray-400 uppercase tracking-widest">На рынке электроники</span>
+            <div class="bg-darkCard rounded-3xl p-4 sm:p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition duration-300">
+                <span class="text-3xl sm:text-5xl font-extrabold text-white mb-1 sm:mb-2">5 лет</span>
+                <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-widest">На рынке</span>
             </div>
 
-            <div class="bg-darkCard rounded-3xl p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition">
-                <span class="text-5xl font-extrabold text-white mb-2">24/7</span>
-                <span class="text-xs text-gray-400 uppercase tracking-widest">Поддержка ремонта</span>
+            <div class="bg-darkCard rounded-3xl p-4 sm:p-8 flex flex-col justify-center items-center text-center hover:border hover:border-blue-500/30 transition duration-300">
+                <span class="text-3xl sm:text-5xl font-extrabold text-white mb-1 sm:mb-2">24/7</span>
+                <span class="text-[10px] sm:text-xs text-gray-400 uppercase tracking-widest">Поддержка</span>
             </div>
-
         </div>
 
-        <!-- Большая карточка -->
-        <div class="lg:col-span-7 h-[400px] relative rounded-3xl overflow-hidden group">
+        <div class="lg:col-span-7 h-auto min-h-[320px] lg:h-[400px] relative rounded-3xl overflow-hidden group">
             <img src="{% static 'img/workshop.png'%}" 
                  alt="Workplace" 
-                 class="absolute inset-0 w-full h-full object-cover">
+                 class="absolute inset-0 w-full h-full object-cover object-center">
             
-            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent flex flex-col justify-center p-12">
-                <h3 class="text-4xl font-extrabold text-white mb-4 uppercase tracking-tight max-w-sm">Работаем круглосуточно</h3>
-                <p class="text-gray-300 text-sm max-w-md leading-relaxed mb-8">
-                    Наш сервисный центр и интернет магазин работает 24/7. Для нас важен каждый клиент, поэтому мы делаем всё, чтобы Вы остались довольны.
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/20 lg:bg-gradient-to-r lg:from-black lg:via-black/80 lg:to-transparent flex flex-col justify-end lg:justify-center p-6 sm:p-12">
+                <h3 class="text-2xl sm:text-4xl font-extrabold text-white mb-3 uppercase tracking-tight max-w-sm">Работаем круглосуточно</h3>
+                <p class="text-gray-300 text-xs sm:text-sm max-w-md leading-relaxed mb-6 sm:mb-8">
+                    Наш сервисный中心 и интернет-магазин работают 24/7. Для нас важен каждый клиент, поэтому мы делаем всё, чтобы Вы остались довольны.
                 </p>
                 <div>
-                    <a href="#" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider inline-block transition">
+                    <a href="{% url 'repair:repairform' %}" class="bg-blue-600 hover:bg-blue-700 px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider inline-block transition">
                         Оставить заявку
                     </a>
                 </div>
@@ -152,54 +129,55 @@
 
     </div>
 
-<div id="about-company" class="mt-24 mb-24 opacity-0 translate-y-8 transition-all duration-1000 ease-out scroll-animate">
-    <div class="text-center mb-12">
-        <span class="text-blue-500 font-bold tracking-widest text-xs uppercase bg-blue-500/10 px-4 py-1.5 rounded-full border border-blue-500/20">
-            Кто мы такие
-        </span>
-        <h2 class="text-3xl font-black text-white uppercase tracking-wider mt-4">
-            Экосистема <span class="text-blue-400 drop-shadow-blue">JEB</span> — Бескомпромиссный подход
-        </h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        
-        <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2">
-            <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
-            
-            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
-                01
-            </div>
-            <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Прямой импорт</h4>
-            <p class="text-gray-400 text-sm leading-relaxed">
-                Никаких перекупщиков. Проектируем, брендируем и везем топовое железо и SSD напрямую с фабрик. Отсюда — честная и выгодная цена без накруток.
-            </p>
+    <div id="about-company" class="mt-12 mb-12 lg:mt-24 lg:mb-24 opacity-0 translate-y-8 transition-all duration-1000 ease-out scroll-animate">
+        <div class="text-center mb-10 lg:mb-12">
+            <span class="text-blue-500 font-bold tracking-widest text-[10px] sm:text-xs uppercase bg-blue-500/10 px-4 py-1.5 rounded-full border border-blue-500/20">
+                Кто мы такие
+            </span>
+            <h2 class="text-xl sm:text-3xl font-black text-white uppercase tracking-wider mt-4 px-2">
+                Экосистема <span class="text-blue-400 drop-shadow-blue">JEB</span> — Бескомпромиссный подход
+            </h2>
         </div>
 
-        <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2">
-            <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             
-            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
-                02
+            <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-6 sm:p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 lg:hover:-translate-y-2">
+                <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+                
+                <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                    01
+                </div>
+                <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Прямой импорт</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    Никаких перекупщиков. Проектируем, брендируем и везем топовое железо и SSD напрямую с фабрик. Отсюда — честная и выгодная цена без накруток.
+                </p>
             </div>
-            <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Абсолютный UX</h4>
-            <p class="text-gray-400 text-sm leading-relaxed">
-                С нами удобно. Весь путь от сборки кастомного каталога под ваши нужды до крипто-оплаты в один клик и сквозного JEB ID сведен до идеала.
-            </p>
-        </div>
 
-        <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 hover:-translate-y-2">
-            <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
-            
-            <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
-                03
+            <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-6 sm:p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 lg:hover:-translate-y-2">
+                <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+                
+                <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                    02
+                </div>
+                <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Абсолютный UX</h4>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    С нами удобно. Весь путь от сборки кастомного каталога под ваши нужды до крипто-оплаты в один клик и сквозного JEB ID сведен до идеала.
+                </p>
             </div>
-            <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Решение задач 24/7</h4>
-            <p class="text-gray-400 text-sm leading-relaxed">
-                От мелкого апгрейда до сложной пайки и подбора серверных комплектующих. Закрываем любые боли геймеров и бизнеса в кратчайшие сроки.
-            </p>
-        </div>
 
+            <div class="bg-darkCard/40 border border-white/5 rounded-3xl p-6 sm:p-8 backdrop-blur-md relative overflow-hidden group hover:border-blue-500/40 transition-all duration-500 lg:hover:-translate-y-2">
+                <div class="absolute -right-20 -top-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-400/20 transition-all duration-500"></div>
+                
+                <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-6 text-blue-400 font-black group-hover:bg-blue-500 group-hover:text-white transition-all duration-300">
+                    03
+                </div>
+                <h4 class="text-lg font-bold text-white uppercase tracking-wide mb-3">Решение задач 24/7</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">
+                    От мелкого апгрейда до сложной пайки и подбора серверных комплектующих. Закрываем любые боли геймеров и бизнеса в кратчайшие сроки.
+                </p>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -208,13 +186,12 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    // Исправлено: комментарий теперь JS-совместимый
                     entry.target.classList.remove('opacity-0', 'translate-y-8');
                     entry.target.classList.add('opacity-100', 'translate-y-0');
                 }
             });
         }, {
-            threshold: 0.15 // 15% блока должно появиться на экране
+            threshold: 0.1
         });
 
         document.querySelectorAll('.scroll-animate').forEach((el) => observer.observe(el));

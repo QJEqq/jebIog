@@ -12,6 +12,7 @@ from .services import send_verification_code
 from django.db import models
 from django.db.models import Q
 from orders.models import Order
+from repair.models import RepairRequest
 from orders.services import create_cryptocloud_payment
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -177,6 +178,22 @@ def order_detail(request, order_id):
         user=request.user
     )
     return TemplateResponse(request, 'users/partials/order_detail.html', {'order': order})
+
+@login_required
+def repair_history(request):
+    repair = RepairRequest.objects.filter(user=request.user).order_by('-created_at')
+    return TemplateResponse(request,'users/partials/repair_history.html', {'repairs': repair} )
+
+@login_required
+def repair_detail(request, repair_id):
+    repair = get_object_or_404(
+        RepairRequest,
+        id = repair_id,
+        user=request.user,
+    )
+    return TemplateResponse(request,'users/partials/repair_detail.html', {'repair' : repair} )
+
+
 
 @login_required
 def repay_order(request, order_id):
