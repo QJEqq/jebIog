@@ -1,0 +1,10 @@
+{
+  "developer": "jeb-team",
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  },
+  "scripts": {
+    "init-tailwind": "tailwindcss init",
+    "build-tailwind": "tailwindcss -i ./jeb_core/static/css/src.css -o ./jeb_core/static/css/style.css --minify"
+  }
+}

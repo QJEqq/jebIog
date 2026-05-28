@@ -1,0 +1,43 @@
+{% load cart_tags %}
+
+{# Проверяем количество товара в корзине по переданному типу #}
+{% get_cart_qty cart item_type item.id as qty %}
+
+<div id="item-control-detail-{{ item_type }}-{{ item.id }}" class="w-full flex items-center justify-center">
+    {% if qty > 0 %}
+        {# СОСТОЯНИЕ: ТОВАР В КОРЗИНЕ #}
+        <div class="flex items-center justify-between w-full bg-zinc-900 border border-white/10 rounded-2xl overflow-hidden h-[58px] ">
+            <button hx-post="{% url 'cart:add' item_type item.id %}?action=remove" 
+                    hx-target="#item-control-detail-{{ item_type }}-{{ item.id }}" 
+                    hx-swap="outerHTML"
+                    class="px-6 h-full hover:bg-white/5 text-gray-400 font-bold text-xl transition-colors">-</button>
+            
+            <span class="font-black text-base text-white">{{ qty }} <span class="text-xs text-gray-400 font-normal ml-1">шт.</span></span>
+            
+            <button hx-post="{% url 'cart:add' item_type item.id %}" 
+                    hx-target="#item-control-detail-{{ item_type }}-{{ item.id }}" 
+                    hx-swap="outerHTML"
+                    {% if qty >= item.quantity_in_stock %} disabled {% endif %}
+                    class="px-6 h-full text-gray-400 font-bold text-xl transition-colors {% if qty >= item.quantity_in_stock %} opacity-20 cursor-not-allowed {% else %} hover:bg-white/5 {% endif %}">
+                +
+            </button>
+        </div>
+    {% else %}
+        <button hx-post="{% url 'cart:add' item_type item.id %}" 
+        hx-target="#item-control-detail-{{ item_type }}-{{ item.id }}" 
+        hx-swap="outerHTML"
+        class="relative group w-full overflow-hidden rounded-2xl p-[1px] transition-all duration-300 hover:scale-[1.02] active:scale-95 ">
+    
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+    
+    <div class=" py-3 relative h-full bg-zinc-900 group-hover:bg-transparent flex items-center justify-center rounded-2xl transition-colors duration-300">
+        <span class="text-white font-black uppercase tracking-widest text-sm flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            Купить
+        </span>
+    </div>
+</button>
+    {% endif %}
+</div>

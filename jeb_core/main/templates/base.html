@@ -7,28 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}JEB{% endblock %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/logoUP1.png' %}">
-    <script src="https://cdn.tailwindcss.com"></script>  
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">  
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        darkBg: '#0b0c10',
-                        darkCard: '#12131a',
-                        neonBlue: '#2563eb',
-                        neonPurple: '#7c3aed',
-                    }
-                }
-            }
-        }
-    </script>
+    
 </head>
 <body x-data="{ mobileMenuOpen: false }" class="font-sans antialiased tracking-tight min-h-screen flex flex-col relative overflow-x-hidden bg-[#0b0c10]">
     

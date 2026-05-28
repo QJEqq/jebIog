@@ -73,18 +73,9 @@
                         </div>
                     </div>
 
-                    <button class="relative group w-full overflow-hidden rounded-2xl p-[1px] transition-all duration-300 hover:scale-[1.02] active:scale-95">
-                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
-                        
-                        <div class="relative bg-zinc-900 group-hover:bg-transparent py-4 rounded-2xl transition-colors duration-300">
-                            <span class="text-white font-black uppercase tracking-widest text-sm flex items-center justify-center">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                                </svg>
-                                Купить
-                            </span>
-                        </div>
-                    </button>
+                    <div class="flex items-center justify-center relative z-30 w-full" hx-trigger="cartUpdated from:body">
+                        {% include 'cart/includes/item_control_detail.html' with item=component item_type='component' %}
+                    </div>
 
                     <div class="flex flex-col items-center space-y-4 pt-2">
                         <div class="flex items-center space-x-2">
