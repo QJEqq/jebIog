@@ -12,11 +12,17 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Внутренний контейнер */
+
 #main-header .max-w-7xl {
     transition: all 0.3s ease;
-    height: 5rem; /* h-20 */
+    height: 3.5rem; 
     margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    #main-header .max-w-7xl {
+        height: 5rem; 
+    }
 }
 
 /* ===== СОСТОЯНИЕ ПРИ СКРОЛЛЕ (ОВАЛ ПО ЦЕНТРУ) ===== */

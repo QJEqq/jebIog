@@ -8,7 +8,7 @@ from django.db import transaction
 from django.http import HttpResponse  
 from django.conf import settings  
 from .services import create_cryptocloud_payment
-
+from django.views.generic import TemplateView
 from cart.views import CartMixin
 from .forms import OrderForm
 from .models import OrderItem, Order
@@ -94,3 +94,8 @@ class CheckOutView(CartMixin, View):
 
         
 
+class PaymentSuccessView(TemplateView):
+    template_name = 'orders/payment_success.html'
+
+class PaymentFailedView(TemplateView):
+    template_name = 'orders/payment_failed.html'
