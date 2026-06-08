@@ -39,9 +39,16 @@
                     </div>
                 {% endfor %}
             </div>
-
+            <div class="flex items-center space-x-3 pt-3 pb-1 select-none">
+                <input id="agree_data" name="agree_data" type="checkbox" checked
+                    class="h-4 w-4 rounded border-white/20 bg-white/5 text-blue-600 focus:ring-blue-500 focus:ring-offset-gray-900 focus:outline-none cursor-pointer transition">
+                <label for="agree_data" class="text-xs leading-tight text-gray-400 cursor-pointer">
+                    Я даю согласие на <a href="{% url 'main:agree_data' %}" class="text-blue-400 hover:text-blue-300 transition underline font-medium" target="_blank">обработку персональных данных</a> и принимаю условия <a href="{% url 'main:terms' %}" class="text-blue-400 hover:text-blue-300 transition underline font-medium" target="_blank">пользовательского соглашения</a>.
+                </label>
+            </div>
             <div class="pt-2">
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-700/50 focus:outline-none transition duration-150">
+                <button type="submit" id="submit-reg-btn"
+                        class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-700/50 focus:outline-none transition-all duration-300">
                     Зарегистрироваться
                 </button>
             </div>
@@ -51,12 +58,43 @@
 <script src="https://unpkg.com/imask"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // --- Логика маски телефона ---
     const element = document.getElementById('phone-mask');
-    const maskOptions = {
-      mask: '8 (000) 000-00-00',
-      lazy: false // Маска будет видна сразу (8 (___)...)
-    };
-    const mask = IMask(element, maskOptions);
+    if (element) {
+        const maskOptions = {
+          mask: '8 (000) 000-00-00',
+          lazy: false
+        };
+        IMask(element, maskOptions);
+    }
+
+    // --- Логика кнопки и чекбокса ---
+    const checkbox = document.getElementById('agree_data');
+    const submitBtn = document.getElementById('submit-reg-btn');
+
+    function toggleSubmitButton() {
+        if (checkbox.checked) {
+            submitBtn.removeAttribute('disabled');
+            
+            // Убираем disabled-стили (прозрачность, бордюр)
+            submitBtn.classList.remove('bg-transparent', 'border-white/20', 'text-white/40', 'cursor-not-allowed', 'shadow-none');
+            
+            // Возвращаем сочный синий стиль со свечением
+            submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-500', 'border-transparent', 'text-white', 'shadow-lg', 'shadow-blue-700/50');
+        } else {
+            submitBtn.setAttribute('disabled', 'true');
+            
+            // Убираем синий фон, ховер и тень
+            submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'border-transparent', 'text-white', 'shadow-lg', 'shadow-blue-700/50');
+            
+            // Накидываем прозрачный стеклянный стиль с тонким белым бордюром
+            submitBtn.classList.add('bg-transparent', 'border-white/20', 'text-white/40', 'cursor-not-allowed', 'shadow-none');
+        }
+    }
+
+    if (checkbox && submitBtn) {
+        checkbox.addEventListener('change', toggleSubmitButton);
+    }
   });
 </script>
 {% endblock %}

@@ -142,17 +142,56 @@
         {% endblock %}
     </main>
 
-    <footer class="mt-24 border-t border-white/5 py-12 bg-darkCard relative z-10">
-        <div class="max-w-7xl mx-auto px-4 text-center md:flex md:justify-between md:text-left">
-            <div>
-                <h3 class="text-xl font-bold text-white mb-2">JEB Сomputers</h3>
-                <p class="text-gray-400 text-sm max-w-xs">Твой проводник в мир высокопроизводительного железа и надежного ремонта.</p>
+<footer class="mt-24 border-t border-white/5 py-12 bg-darkCard relative z-10">
+    <!-- Главный контейнер (md:flex-row делит подвал на Лево и Право) -->
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left gap-8">
+        
+        <!-- ЛЕВАЯ ЧАСТЬ: Брендинг и описание -->
+        <div class="space-y-2">
+            <h3 class="text-xl font-bold text-white tracking-wide">JEB Computers</h3>
+            <p class="text-gray-400 text-sm max-w-xs mx-auto md:mx-0">
+                Твой проводник в мир высокопроизводительного железа и надежного ремонта.
+            </p>
+        </div>
+        
+        <!-- ПРАВАЯ ЧАСТЬ: Весь блок выстроен столбцом -->
+        <div class="flex flex-col items-center md:items-end space-y-6">
+            
+            <!-- Ряд 1: Юридические ссылки — ТЕПЕРЬ СТРОГО СТОЛБЦОМ! -->
+            <div class="flex flex-col items-center md:items-end space-y-2 text-xs text-gray-400">
+                <a href="{% url 'main:terms' %}" class="hover:text-blue-400 transition duration-200">
+                    Оферта
+                </a>
+                <a href="{% url 'main:privacy' %}" class="hover:text-blue-400 transition duration-200">
+                    Конфиденциальность
+                </a>
+                <a href="{% url 'main:refund' %}" class="hover:text-blue-400 transition duration-200">
+                    Условия возврата
+                </a>
+                <a href="{% url 'main:agree_data' %}" class="hover:text-blue-400 transition duration-200">
+                    Обработка данных
+                </a>
             </div>
-            <div class="mt-6 md:mt-0 text-gray-500 text-sm">
+
+            <div class="pt-1">
+                <a href="https://t.me/jeb_perfomance" target="_blank" rel="noopener noreferrer" 
+                   class="text-gray-400 hover:text-[#24A1DE] transition duration-200 block" 
+                   title="Наш Telegram канал">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.58.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.66-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.35-.49.97-.74 3.79-1.65 6.32-2.74 7.57-3.27 3.6-1.5 4.35-1.76 4.84-1.77.11 0 .35.03.51.16.13.11.17.27.19.39.02.07.02.21.01.27z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Ряд 2: Копирайт (находится строго под столбцом ссылок) -->
+            <div class="text-gray-500 text-xs tracking-wide pt-2 border-t border-white/5 w-full md:w-auto">
                 © 2026 JEB Store. Все права защищены.
             </div>
+            
         </div>
-    </footer>
+
+    </div>
+</footer>
 
     <script>
         document.body.addEventListener('htmx:configRequest', (event) => {

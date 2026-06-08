@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Пользовательское соглашение | JEB{% endblock %}
+
+{% block content %}
+<!-- Убрали жесткий серый фон, заменили на прозрачный слой с большим отступом для глубины -->
+<div class="relative min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Карточка соглашения: стеклянный эффект (Glassmorphism) -->
+    <div class="max-w-3xl mx-auto backdrop-blur-xl bg-white/[0.02] border border-white/5 rounded-2xl p-8 lg:p-10 shadow-[0_0_50px_rgba(0,0,0,0.3)] transition duration-300">
+        
+        <!-- Заголовок с мягким неоновым свечением -->
+        <h1 class="text-3xl font-extrabold text-white tracking-tight mb-8 border-b border-white/5 pb-5">
+            Пользовательское соглашение <span class="text-xs font-normal text-gray-500 block mt-2 uppercase tracking-widest">(Публичная оферта)</span>
+        </h1>
+        
+        <!-- Текстовый блок с улучшенной читаемостью на темном фоне -->
+        <div class="space-y-6 text-sm leading-relaxed text-gray-400">
+            <p class="text-gray-300">
+                Настоящий документ представляет собой официальное предложение интернет-магазина 
+                <span class="text-blue-400 font-semibold tracking-wide">JEB</span> заключить договор купли-продажи компьютерной техники и комплектующих дистанционным способом.
+            </p>
+
+            <!-- Разделы с легким акцентом на заголовках -->
+            <div class="pt-4 space-y-3">
+                <h2 class="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+                    <span class="text-blue-500/50 text-xs">//</span> 1. Предмет соглашения
+                </h2>
+                <p>1.1. Продавец осуществляет продажу компьютерных компонентов, накопителей информации (SSD), готовых игровых конфигураций ПК и сопутствующих услуг по диагностике и сборке, а Покупатель производит оплату и принимает Товар.</p>
+            </div>
+
+            <div class="pt-4 space-y-3">
+                <h2 class="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+                    <span class="text-blue-500/50 text-xs">//</span> 2. Оформление заказа и верификация
+                </h2>
+                <p>2.1. Оформление заказа и доступ к истории покупок предоставляются Пользователям, успешно прошедшим верификацию номера телефона через привязку Telegram-аккаунта.</p>
+                <p class="text-gray-500 bg-white/[0.01] p-3 rounded-lg border border-white/[0.02]">
+                    <strong class="text-gray-400 font-medium">Внимание:</strong> Продавец не несет ответственности за некорректно указанные данные доставки (ФИО, адрес, регион), предоставленные Покупателем при оформлении заказа.
+                </p>
+            </div>
+
+            <div class="pt-4 space-y-3">
+                <h2 class="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+                    <span class="text-blue-500/50 text-xs">//</span> 3. Ценообразование и оплата
+                </h2>
+                <p>3.1. Цены на компоненты и сборки указываются в каталоге Сайта и фиксируются в момент генерации счета на оплату.</p>
+                <p>3.2. При выборе оплаты через систему крипто-эквайринга инвойс создается в выбранной цифровой валюте по текущему рыночному курсу, определенному платежной системой.</p>
+                <p>3.3. Транзакция считается завершенной после получения необходимого количества подтверждений в соответствующей сети блокчейн.</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

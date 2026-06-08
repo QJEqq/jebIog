@@ -16,7 +16,7 @@
         </div>
 
         <h2 class="text-2xl font-extrabold text-white mb-2 drop-shadow-blue text-center">Код подтверждения</h2>
-        <p class="text-blue-200 text-sm mb-8 text-center">Введите 4 цифры из уведомления</p>
+        <p class="text-blue-200 text-sm mb-8 text-center">Введите 4 цифры из номера <span class="text-blue-300 font-semibold tracking-wide">+7 (999)-999 <span class="text-blue-500 font-semibold tracking-wide">X-X-X-X</span></span></p>
 
         <form method="POST" id="otp-form" class="space-y-8">
     {% csrf_token %}
@@ -35,16 +35,69 @@
     </button>
 </form>
 <div class="flex justify-center items-center mt-8">
-            <a href="{% url 'users:resend_sms' %}" 
+            <a id="resend-sms-btn" 
+               href="{% url 'users:resend_sms' %}" 
                class="text-sm text-blue-400 hover:text-blue-300 transition font-medium">
                 Отправить код повторно
             </a>
         </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const inputs = document.querySelectorAll('.otp-field');
     const hiddenInput = document.getElementById('full-code');
+    const btn = document.getElementById("resend-sms-btn");
+    const cooldown = 60; // Время блокировки в секундах
+    const storageKey = "cooldown_" + window.location.pathname;
 
+    // Логика таймера повторной отправки
+    function startTimer(remainingTime) {
+        let timer = remainingTime;
+        
+        // Блокируем ссылку стилями Tailwind и отключаем события мыши
+        btn.classList.remove("text-blue-400", "hover:text-blue-300");
+        btn.classList.add("text-gray-500", "pointer-events-none", "cursor-not-allowed");
+        
+        const interval = setInterval(function() {
+            btn.innerText = `Отправить код повторно (${timer} сек)`;
+            timer--;
+
+            if (timer < 0) {
+                clearInterval(interval);
+                btn.innerText = "Отправить код повторно";
+                // Возвращаем в исходное активное состояние
+                btn.classList.remove("text-gray-500", "pointer-events-none", "cursor-not-allowed");
+                btn.classList.add("text-blue-400", "hover:text-blue-300");
+                localStorage.removeItem(storageKey);
+            } else {
+                localStorage.setItem(storageKey, Math.floor(Date.now() / 1000) + timer);
+            }
+        }, 1000);
+    }
+
+    // Проверяем наличие активного кулдауна при обновлении страницы (F5)
+    const deadline = localStorage.getItem(storageKey);
+    if (deadline) {
+        const currentTime = Math.floor(Date.now() / 1000);
+        const remaining = deadline - currentTime;
+
+        if (remaining > 0) {
+            startTimer(remaining);
+        } else {
+            localStorage.removeItem(storageKey);
+        }
+    }
+
+    // Обработчик клика на повторную отправку
+    btn.addEventListener("click", function(e) {
+        if (btn.classList.contains("pointer-events-none")) {
+            e.preventDefault();
+            return;
+        }
+        startTimer(cooldown);
+    });
+
+    // Обработка ввода цифр в OTP-ячейки
     inputs.forEach((input, index) => {
         // Обработка ввода цифры
         input.addEventListener('input', (e) => {
@@ -66,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let code = '';
         inputs.forEach(input => code += input.value);
         hiddenInput.value = code; // Записываем в скрытое поле для Django
-        console.log("Текущий код:", code); // Открой консоль браузера (F12), чтобы видеть сборку
+        console.log("Текущий код:", code);
     }
 });
 </script>

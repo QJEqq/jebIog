@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Политика возврата | JEB{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Карточка: стеклянный эффект (Glassmorphism) -->
+    <div class="max-w-3xl mx-auto backdrop-blur-xl bg-white/[0.02] border border-white/5 rounded-2xl p-8 lg:p-10 shadow-[0_0_50px_rgba(0,0,0,0.3)] transition duration-300">
+        
+        <!-- Заголовок -->
+        <h1 class="text-3xl font-extrabold text-white tracking-tight mb-8 border-b border-white/5 pb-5">
+            Условия возврата <span class="text-xs font-normal text-gray-500 block mt-2 uppercase tracking-widest">(Товаров и платежей)</span>
+        </h1>
+        
+        <div class="space-y-6 text-sm leading-relaxed text-gray-400">
+            <p class="text-gray-300">
+                Настоящие правила определяют порядок обмена/возврата комплектующих и готовых системных блоков в магазине 
+                <span class="text-blue-400 font-semibold tracking-wide">JEB</span>, в том числе особенности проведения транзакций возврата при использовании криптовалютных платежей.
+            </p>
+
+            <!-- Раздел 1 -->
+            <div class="pt-4 space-y-3">
+                <h2 class="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+                    <span class="text-blue-500/50 text-xs">//</span> 1. Возврат товара надлежащего качества
+                </h2>
+                <p>1.1. Покупатель вправе отказаться от заказанных комплектующих в любое время до их передачи, а после передачи — в течение 14 дней.</p>
+                <p>1.2. Возврат возможен только при полной сохранности товарного вида, потребительских свойств (оригинальная упаковка процессоров, видеокарт, накопителей без следов вскрытия пломб, царапин и следов установки).</p>
+            </div>
+
+            <!-- Раздел 2 -->
+            <div class="pt-4 space-y-3">
+                <h2 class="text-lg font-semibold text-white tracking-wide flex items-center gap-2">
+                    <span class="text-blue-500/50 text-xs">//</span> 2. Технически сложные товары и гарантия
+                </h2>
+                <p>2.1. Компьютерные комплектующие и готовые ПК относятся к категории технически сложных товаров. При обнаружении скрытых дефектов или брака компонентов Продавец оставляет за собой право провести диагностику оборудования (до 10 рабочих дней) для установления причин неисправности.</p>
+            </div>
+
+            <!-- Раздел 3: Стильный крипто-комплаенс блок -->
+            <div class="backdrop-blur-md bg-red-950/10 border border-red-500/15 p-6 rounded-xl space-y-4 mt-6">
+                <h3 class="text-lg font-semibold text-red-400 tracking-wide flex items-center gap-2">
+                    <span class="text-red-500/40 text-xs">▲</span> 3. Регламент возврата средств в криптовалюте
+                </h3>
+                <p class="text-xs text-gray-400 italic">В связи с высокой волатильностью цифровых активов устанавливаются строгие правила комплаенса:</p>
+                <ul class="space-y-3 text-xs text-gray-400 list-none pl-1">
+                    <li class="flex items-start gap-2">
+                        <span class="text-red-400/60 mt-0.5">•</span>
+                        <span>Возврат денежных средств за Товар производится исключительно на сумму в фиатном эквиваленте, зафиксированную в чеке <strong class="text-gray-300 font-medium">на момент покупки</strong>, вне зависимости от изменения курса криптовалюты к моменту оформления возврата.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-red-400/60 mt-0.5">•</span>
+                        <span>Сумма транзакции возврата в крипто-активах рассчитывается по биржевому курсу на момент фактического одобрения заявки на возврат, но не может превышать рублевую стоимость товара на дату покупки.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-red-400/60 mt-0.5">•</span>
+                        <span>Комиссия блокчейн-сети за проведение обратной транзакции ложится на Покупателя и вычитается из финальной суммы возврата.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

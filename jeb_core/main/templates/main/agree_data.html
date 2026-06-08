@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Согласие на обработку персональных данных | JEB{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Карточка: стеклянный эффект (Glassmorphism) -->
+    <div class="max-w-3xl mx-auto backdrop-blur-xl bg-white/[0.02] border border-white/5 rounded-2xl p-8 lg:p-10 shadow-[0_0_50px_rgba(0,0,0,0.3)] transition duration-300">
+        
+        <!-- Заголовок -->
+        <h1 class="text-3xl font-extrabold text-white tracking-tight mb-8 border-b border-white/5 pb-5">
+            Согласие <span class="text-xs font-normal text-gray-500 block mt-2 uppercase tracking-widest">(На обработку персональных данных)</span>
+        </h1>
+        
+        <div class="space-y-6 text-sm leading-relaxed text-gray-400">
+            <p class="text-gray-300">
+                Пользователь, регистрируясь, проходя верификацию или оставляя заявку на сайте 
+                <span class="text-blue-400 font-semibold tracking-wide">JEB</span> (далее — Сайт), обязуется принять настоящее Согласие на обработку персональных данных (далее — Согласие).
+            </p>
+            
+            <p>
+                Принятием Согласия является регистрация на Сайте, подтверждение номера телефона через Telegram-шлюз или оформление заказа. Действуя свободно, своей волей и в своем интересе, Пользователь дает согласие на обработку своих персональных данных со следующими условиями:
+            </p>
+            
+            <!-- Внутренний инфо-блок (перечень условий) -->
+            <div class="backdrop-blur-md bg-white/[0.01] p-6 rounded-xl border border-white/5 space-y-4">
+                <div>
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-1">1. Перечень персональных данных</h3>
+                    <p class="text-gray-400 text-xs">Имя, адрес электронной почты (Email), номер телефона (используемый для авторизации), IP-адрес, данные файлов cookie, физический адрес доставки заказов.</p>
+                </div>
+                
+                <div class="pt-3 border-t border-white/[0.03]">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-1">2. Цель обработки</h3>
+                    <p class="text-gray-400 text-xs">Предоставление доступа к функциям личного кабинета, верификация аккаунта, обработка, сборка и доставка заказов, осуществление технической поддержки, информирование о статусе готовности систем.</p>
+                </div>
+                
+                <div class="pt-3 border-t border-white/[0.03]">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-1">3. Основание</h3>
+                    <p class="text-gray-400 text-xs">Ст. 24 Конституции Российской Федерации; ст. 9 Федерального закона №152-ФЗ «О персональных данных».</p>
+                </div>
+                
+                <div class="pt-3 border-t border-white/[0.03]">
+                    <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-1">4. Перечень действий</h3>
+                    <p class="text-gray-400 text-xs">Сбор, запись, систематизация, накопление, хранение, уточнение (обновление, изменение), использование, передача курьерским и логистическим службам СДЭК исключительно для выполнения доставки.</p>
+                </div>
+            </div>
+            
+            <!-- Отзыв согласия -->
+            <p class="text-xs text-gray-500 pt-4 italic">
+                Настоящее согласие действует бессрочно с момента предоставления данных и может быть отозвано Пользователем путем направления заявления на электронную почту технической поддержки Сайта.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

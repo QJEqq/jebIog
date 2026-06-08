@@ -58,6 +58,13 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
 ROOT_URLCONF = 'jeb_core.urls'
 
 TEMPLATES = [
@@ -145,3 +152,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
 PHONENUMBER_DEFAULT_REGION = 'RU'
+TELEGRAM_PROXY = os.getenv('TELEGRAM_PROXY')
+
+ZVONOK_PK = os.getenv('ZVONOK_PK')
+ZVONOK_CAMPAIGN_ID = os.getenv('ZVONOK_CAMPAIGN_ID')
