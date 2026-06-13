@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Реквизиты Продавца | JEB{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto backdrop-blur-xl bg-white/[0.02] border border-white/5 rounded-2xl p-8 lg:p-10 shadow-[0_0_50px_rgba(0,0,0,0.3)]">
+        
+        <h1 class="text-3xl font-extrabold text-white tracking-tight mb-8 border-b border-white/5 pb-5">
+            Юридические реквизиты <span class="text-xs font-normal text-gray-500 block mt-2 uppercase tracking-widest">(Информация о продавце)</span>
+        </h1>
+        
+        <div class="space-y-6 text-sm leading-relaxed text-gray-400">
+            <p class="text-gray-300">
+                В соответствии со ст. 9 Федерального закона от 27.07.2006 № 149-ФЗ «Об информации, информационных технологиях и о защите информации», ниже представлены официальные реквизиты Продавца:
+            </p>
+
+            <div class="backdrop-blur-md bg-white/[0.01] border border-white/5 p-6 rounded-xl space-y-4 font-mono text-xs text-gray-300">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 border-b border-white/[0.03] pb-3">
+                    <span class="text-gray-500 uppercase tracking-wider">Наименование:</span>
+                    <span class="sm:col-span-2 text-white">Интернет-магазин JEB</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 border-b border-white/[0.03] pb-3">
+                    <span class="text-gray-500 uppercase tracking-wider">Организационная форма:</span>
+                    <span class="sm:col-span-2">Физическое лицо, зарегистрированное в качестве налогоплательщика налога на профессиональный доход (Самозанятый)</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 border-b border-white/[0.03] pb-3">
+                    <span class="text-gray-500 uppercase tracking-wider">ФИО:</span>
+                    <span class="sm:col-span-2 text-white">Щепелин Игнатий Алексеевич</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1 border-b border-white/[0.03] pb-3">
+                    <span class="text-gray-500 uppercase tracking-wider">ИНН:</span>
+                    <span class="sm:col-span-2 text-blue-400 font-bold">720213026990</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+                    <span class="text-gray-500 uppercase tracking-wider">Email техподдержки:</span>
+                    <span class="sm:col-span-2 text-white">support@jeb.ru</span>
+                </div>
+            </div>
+            
+            <p class="text-xs text-gray-500 italic pt-4">
+                Потребитель имеет право направлять любые досудебные претензии, вопросы по качеству комплектующих и сборки ПК на указанный адрес электронной почты. Срок обработки входящих обращений — до 24 часов.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

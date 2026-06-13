@@ -20,6 +20,11 @@ urlpatterns = [
     path('agree-data/', 
          TemplateView.as_view(template_name='main/agree_data.html'), 
          name='agree_data'),
+
+     path('requisites/', 
+         TemplateView.as_view(template_name='main/requisites.html'), 
+         name='requisites'),
+     
      
 
 ]

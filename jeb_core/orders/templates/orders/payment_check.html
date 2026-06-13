@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white px-4">
+    <div class="p-8 rounded-2xl bg-neutral-900/50 border border-neutral-800 backdrop-blur-md max-w-md w-full text-center shadow-2xl"
+         hx-get="{% url 'orders:payment_check' %}?order_id={{ order.id }}"
+         hx-trigger="every 2s"
+         hx-swap="none">
+         
+        <div class="flex justify-center mb-6">
+            <div class="w-16 h-16 border-4 border-t-cyan-500 border-r-transparent border-b-neutral-800 border-l-transparent rounded-full animate-spin"></div>
+        </div>
+        
+        <h2 class="text-2xl font-bold mb-2">Проверка платежа</h2>
+        <p class="text-neutral-400 text-sm">
+            Пожалуйста, не закрывайте и не обновляйте страницу. Мы обрабатываем ваш платеж по заказу №{{ order.id }}.
+        </p>
+    </div>
+</div>
+{% endblock %}

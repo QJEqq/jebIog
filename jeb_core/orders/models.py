@@ -30,6 +30,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=35, verbose_name='Имя')
     last_name = models.CharField(max_length=35, verbose_name='Фамилия')
 
+    yookassa_payment_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
     # Адрес доставки
 
     city = models.CharField(max_length=35, blank=True, null=True, verbose_name='Город')
@@ -48,7 +49,7 @@ class Order(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f'Заказ №{self.id} | Номер: {self.phone_number}'
+        return f'Заказ №{self.id} | ({self.get_status_display()}) Номер: {self.phone_number}'
     
 class OrderItem(models.Model):
     order = models.ForeignKey(
