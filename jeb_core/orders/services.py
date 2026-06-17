@@ -17,7 +17,7 @@ def create_cryptocloud_payment(order):
             },
             'confirmation' : {
                 'type': "redirect",
-                'return_url': f"https://jebperformance.space/orders/payment/check/?order_id={order.id}"
+                'return_url': f"https://jebperfomance.space/orders/payment/check/?order_id={order.id}"
             },
             'capture': True,
             'description': f"Оплата заказа №{order.id} | JEB",

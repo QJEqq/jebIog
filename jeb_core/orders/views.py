@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import ipaddress
 from django.conf import settings
-
+from auth.notification import send_telegram
 from ipware import get_client_ip
 
 logger = logging.getLogger(__name__)
@@ -143,10 +143,6 @@ def yookassa_webhook(request):
         return HttpResponse("Method not allowed", status=405)
 
     client_ip, is_routable = get_client_ip(request)
-    
-    if not settings.DEBUG:
-        if not client_ip or not check_ip_in_ranges(client_ip, settings.YOOKASSA_IP_RANGES):
-            return HttpResponseForbidden("Forbidden: Fake Webhook Attempt Detected")
         
     if not client_ip or not check_ip_in_ranges(client_ip, settings.YOOKASSA_IP_RANGES):
         return HttpResponseForbidden("Forbidden: Fake Webhook Attempt Detected")
@@ -167,13 +163,30 @@ def yookassa_webhook(request):
 
 
     if event_type == 'payment.succeeded':
-
         if order.status == 'pending':
-            order.status = 'paid' 
-            order.save()
-            
-            
-            
+            try:
+                with transaction.atomic():
+                    order.status = 'paid' 
+                    order.save()
+                    send_telegram(order)
+                    for order_item in order.items.all():
+                        product = order_item.item
+                        if product:
+                            product.quantity_in_stock -= order_item.quantity
+
+                            if product.quantity_in_stock<0:
+                                logger.warning(f'Рассинхрон заказа {order.id} c кол-вом {product.id} | {product.name}')
+                                product.quantity_in_stock = 0
+
+                            if product.quantity_in_stock == 0:
+                                logger.warning(f'Закончился товар {product.id} | {product.name}')
+                                product.is_available = False
+
+                            product.save()
+            except Exception as e:
+                logger.error(f"КРИТИЧЕСКАЯ ОШИБКА списания остатков для заказа {order.id} : {e}")
+                return HttpResponse("Internal Server Error", status=500)
+ 
     elif event_type == 'payment.canceled':
         if order.status == 'pending':
             order.status = 'cancelled' 

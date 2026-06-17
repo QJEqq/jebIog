@@ -10,9 +10,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'jebperfomance.space', 'www.jebperfomance.space']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'jebperfomance.space', 'www.jebperfomance.space', '186.246.28.146']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
@@ -21,8 +21,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.jebperfomance.space',
 ]
 
-CSRF_COOKIE_SECURE = True 
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = not DEBUG 
+SESSION_COOKIE_SECURE = not DEBUG
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
@@ -57,13 +57,31 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
 ]
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
+if DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
     }
-}
+else:
+    CACHES = {
+
+        "default": {
+
+            "BACKEND": "django_redis.cache.RedisCache",
+
+            "LOCATION": "redis://redis:6379/1",
+
+            "OPTIONS": {
+
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+
+            }
+
+        }
+
+    }
 
 ROOT_URLCONF = 'jeb_core.urls'
 
@@ -149,17 +167,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-
 PHONENUMBER_DEFAULT_REGION = 'RU'
+
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_PROXY = os.getenv('TELEGRAM_PROXY')
+CHAT_ID = os.getenv('CHAT_ID')
 
 ZVONOK_PK = os.getenv('ZVONOK_PK')
 ZVONOK_CAMPAIGN_ID = os.getenv('ZVONOK_CAMPAIGN_ID')
 
 YOOKASSA_SHOP_ID = os.getenv('YUKASSA_SHOP_ID')
 YOOKASSA_SECRET_KEY = os.getenv('YUKASSA_API_KEY')
-
 YOOKASSA_IP_RANGES = [
     '185.71.76.0/27',
     '185.71.77.0/27',
